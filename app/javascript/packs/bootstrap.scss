@@ -1,0 +1,60 @@
+@import '~bootstrap/dist/css/bootstrap';
+body {
+  padding-top: 70px;
+  padding-left: 70px;
+  font-family: 'Roboto', sans-serif;
+  margin-bottom: 80px;
+}
+
+#tools-section { margin-bottom: 20px; }
+
+.center-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin: 0 auto;
+  margin-bottom: 50px;
+}
+
+[v-cloak] { display: none }
+
+.danger-link {
+  color: #e94a34;
+  &:hover{
+    text-decoration:none;
+    color: #e94a34;
+  }
+}
+
+.required-field {
+  color: #e94a34;
+  font-size: 13px;
+}
+
+.submit_plus_button { margin-top: 24px; }
+
+#prueba{
+  div.input-group{
+    position: relative;
+    display: flex;
+    -webkit-box-align: stretch;
+    align-items: stretch;
+    width: 100%;
+  }
+  span.input-group-text{
+    display: -webkit-box;
+    align-items: center;
+    -webkit-box-align: center;
+    padding: .375rem .75rem;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+  }
+}
