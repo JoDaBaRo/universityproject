@@ -6,6 +6,15 @@
 //
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
+//= require jquery
+//= require jquery.turbolinks
+//= require jquery_ujs  
+//= require bootstrap/dropdown
+//= require turbolinks
+//= require turbolinks
+//= require jquery3
+//= require popper
+//= require bootstrap
 import 'bootstrap/dist/js/bootstrap';
 console.log('Hello World from Webpacker')
 

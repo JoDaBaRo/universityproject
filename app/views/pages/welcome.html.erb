@@ -1,12 +1,20 @@
-<h1>Pages#welcome</h1>
+<h1>Welcome</h1>
 
 <div id='app'>
   <div class="row">
-    <div class="col-6">
-      {{message}}
+    <% unless current_user %>
+      <div class="col-6">
+        {{message}}
+        <br>
+        <br>
+        <%= link_to "sign up", new_user_registration_path %>
+        <br>
+        <%= link_to "log in", new_user_session_path %>
+      </div>
+      <% else %>
+      <div class="col-6">
+        Welcome <%= current_user.name %> unfortunetely the app doesn't do anything at all yet but enjoy the view
+      </div>
+      <% end %>
     </div>
-    <div class="col-6">
-      <%= link_to "sign up", new_user_registration_path %>
-    </div>
-  </div>
 </div>
