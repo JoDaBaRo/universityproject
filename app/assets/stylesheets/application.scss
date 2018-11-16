@@ -15,21 +15,26 @@
 @import "font-awesome-sprockets";
 @import "font-awesome";
 
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
   padding-bottom: 10px;
   font-family: 'Roboto', sans-serif;
-  margin-bottom: 80px;
+  margin-bottom: 100px;
 }
 
 #tools-section { margin-bottom: 20px; }
 
 .center-image {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin: 0 auto;
+  margin-left: 52px;
+  margin-right: 74px;
   margin-bottom: 50px;
+  margin-top: 50px;
 }
+
 
 [v-cloak] { display: none }
 
@@ -40,6 +45,7 @@ body {
     color: #e94a34;
   }
 }
+.clearFloat { clear: both;} 
 
 .required-field {
   color: #e94a34;
@@ -81,7 +87,12 @@ footer.navbar-default.navbar-fixed-bottom {
 footer.navbar-default.navbar-fixed-bottom p { margin:0; }
 
 html,body{
-    height: 100%
+
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;
 }
 
 #holder{
@@ -99,4 +110,5 @@ footer{
     position: absolute;
     left: 0;
     bottom: 0; 
+    overflow: hidden;
 }

@@ -1,6 +1,6 @@
 <h1>Welcome</h1>
 
-<div id='app'>
+<div id='welcome_page'>
   <div class="row">
     <% unless current_user %>
       <div class="col-6">
@@ -14,6 +14,7 @@
       <% else %>
       <div class="col-6">
         Welcome <%= current_user.name %> unfortunetely the app doesn't do anything at all yet but enjoy the view
+        {{message}}
       </div>
       <% end %>
     </div>

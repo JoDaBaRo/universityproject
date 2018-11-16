@@ -6,10 +6,12 @@
 // All it does is render <div>Hello Vue</div> at the bottom of the page.
 
 import Vue from 'vue/dist/vue.esm'
+import TurbolinksAdapter from 'vue-turbolinks';
 
-document.addEventListener('DOMContentLoaded', () => {
+Vue.use(TurbolinksAdapter) 
+document.addEventListener('turbolinks:load', () => {
   var app = new Vue({
-    el: '#app',
+    el: '#welcome_page',
     data: {
       message: 'Please sign up or log in'
     }

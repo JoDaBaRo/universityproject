@@ -15,6 +15,7 @@
 //= require jquery3
 //= require popper
 //= require bootstrap
+//= require_tree .
 import 'bootstrap/dist/js/bootstrap';
 console.log('Hello World from Webpacker')
 
