@@ -6,7 +6,6 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag    'application', media: 'all' %>
-    <%= javascript_include_tag 'application' %>
     <%= javascript_pack_tag 'hello_vue' %>
     <%= javascript_pack_tag 'application' %>
     <%= stylesheet_pack_tag 'bootstrap' %>
@@ -14,9 +13,12 @@
 
   <body>
     <%= render 'shared/navbar' %>
+    <div class="container-fluid-flash"">
+      <%= render 'shared/flash', flash: flash %>
+    </div>
     <% if user_signed_in? %>
     
-  <div class="container-fluid" style="margin-left: 70px; padding-top: 50px; margin-bottom: 150px;"  >
+  <div class="container-fluid-body">
     <div class=row>
       <div class="col-lg-2">
         <%= render 'shared/menu' %>
