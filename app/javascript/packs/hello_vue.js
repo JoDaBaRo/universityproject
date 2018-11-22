@@ -4,16 +4,13 @@
 // to the head of your layout file,
 // like app/views/layouts/application.html.erb.
 // All it does is render <div>Hello Vue</div> at the bottom of the page.
-
 import Vue from 'vue/dist/vue.esm'
-import TurbolinksAdapter from 'vue-turbolinks';
 
-Vue.use(TurbolinksAdapter) 
-document.addEventListener('turbolinks:load', () => {
+document.addEventListener('DOMContentLoaded', () => {
   var app = new Vue({
     el: '#welcome_page',
     data: {
-      message: 'Please sign up or log in'
+      message: 'Turbolinks are useless'
     }
   })
 })

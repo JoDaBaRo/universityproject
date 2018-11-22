@@ -15,10 +15,7 @@
 //= require_tree 
 //= require jquery
 //= require jquery.turbolinks
-//= require jquery_ujs  
-//= require bootstrap
-//= require turbolinks
-//= require jquery3
 //= require popper
 //= require bootstrap
+//= require bootstrap-select
 
