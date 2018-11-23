@@ -9,34 +9,41 @@
 
     <div class="form-group">
       <%= f.label :nombre %><br />
-      <%= f.text_field :name, class: 'form-control' %>
+      <%= f.text_field :name, class: 'form-control', "v-model" => "nameValue", "@input" => "fieldClass('user_name', $v.nameValue.$invalid), $v.nameValue.$touch()" %>
+      <div v-if="$v.nameValue.$dirty">
+        <p class="required-field" v-if="!$v.nameValue.required">*The name field is required!</p>
+      </div>
     </div>
 
     <div class="form-group">
       <%= f.label :email %><br />
-      <%= f.email_field :email, class: "form-control", "v-model" => "emailValue", "@input" => "$v.emailValue.$touch()", "@change" => "fieldClass('user_email')" %>
+      <%= f.email_field :email, class: "form-control", "v-model" => "emailValue", "@input" => "fieldClass('user_email', $v.emailValue.$invalid), $v.emailValue.$touch()" %>
       <div v-if="$v.emailValue.$dirty">
-        <p class="alert-danger" v-if="!$v.emailValue.required">The email field is required!</p>
-        <p v-if="!$v.emailValue.email">The input must be a proper email!</p>
+        <p class="required-field" v-if="!$v.emailValue.required">*The email field is required!</p>
+        <p class="required-field" v-if="!$v.emailValue.email">*The input must be a proper email!</p>
       </div>
     </div>
 
     <div class="form-group">
       <%= f.label :contraseña %>
-      <%= f.password_field :password, autocomplete: "off", class: 'form-control' %>
-      <% if @validatable %>
-        <span class="help-block"><%= @minimum_password_length %> characters minimum</span>
-      <% end %>
+      <%= f.password_field :password, autocomplete: "off", class: 'form-control', "v-model" => "passwordValue", "@input" => "fieldClass('user_password', $v.passwordValue.$invalid), $v.passwordValue.$touch()" %>
+      <div v-if="$v.passwordValue.$dirty">
+        <p class="required-field" v-if="!$v.passwordValue.required">*The password field is required!</p>
+        <p class="required-field" v-if="!$v.passwordValue.minLength">*The input must be of at least 8 characters </p>
+      </div>
     </div>
 
     <div class="form-group">
       <%= f.label :confirmar_contraseña %><br />
-      <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control' %>
+      <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control', "v-model" => "passwordConfirmationValue", "@input" => "fieldClass('user_password_confirmation', $v.passwordConfirmationValue.$invalid), $v.passwordConfirmationValue.$touch()"%>
+      <div v-if="$v.passwordConfirmationValue.$dirty">
+        <p class="required-field" v-if="!$v.passwordConfirmationValue.sameAsPassword">*The password fields must be identical</p>
+      </div>
     </div>
     <%= render "devise/shared/links" %>
     <hr>
     <div class="actions">
-      <%= f.submit "Sign up", class: 'btn-primary' %>
+      <%= f.submit "Sign up", class: 'btn btn-primary', ':disabled' => "$v.$anyError || $v.$invalid"%>
     </div>
     <br>
     <% end %>

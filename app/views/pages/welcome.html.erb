@@ -15,12 +15,17 @@
       <div class="col-6">
         Welcome <%= current_user.name %> unfortunetely the app doesn't do anything at all yet but enjoy the view
         {{message}}
-        <select class="selectpicker">
+      </div>
+      <% end %>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-12">
+        <select class="selectpicker" multiple="true" data-live-search="true" data-actions-box="true" data-width="100%">
           <option>Mustard</option>
           <option>Ketchup</option>
           <option>Barbecue</option>
         </select>
-      </div>
-      <% end %>
+    </div>
     </div>
 </div>

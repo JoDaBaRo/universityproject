@@ -4,15 +4,16 @@
 // to the head of your layout file,
 // like app/views/layouts/application.html.erb.
 // All it does is render <div>Hello Vue</div> at the bottom of the page.
-import Vue from 'vue/dist/vue.esm'
+import Vue from 'vue/dist/vue.esm';
 document.addEventListener('DOMContentLoaded', () => {
+  if(document.getElementById('welcome_page')) {
   var app = new Vue({
     el: '#welcome_page',
     data: {
       message: 'Turbolinks are useless'
     }
   })
-})
+}})
 
 
 // The above code uses Vue without the compiler, which means you cannot
