@@ -10,13 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_23_215348) do
+ActiveRecord::Schema.define(version: 2018_11_23_224435) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "customers", force: :cascade do |t|
+    t.string "person_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_customers_on_person_id"
+  end
+
   create_table "licence_types", force: :cascade do |t|
-    t.string "description", null: false
+    t.string "allowed_vehicules", null: false
+    t.string "category", null: false
+    t.string "service_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -27,6 +36,24 @@ ActiveRecord::Schema.define(version: 2018_11_23_215348) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["licence_type_id"], name: "index_licences_on_licence_type_id"
+  end
+
+  create_table "people", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "last_name", null: false
+    t.string "address", null: false
+    t.string "phone_number", default: "", null: false
+    t.string "id_number", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["id_number"], name: "index_people_on_id_number", unique: true
+  end
+
+  create_table "teachers", force: :cascade do |t|
+    t.string "person_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_teachers_on_person_id"
   end
 
   create_table "users", force: :cascade do |t|
