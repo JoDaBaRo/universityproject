@@ -14,7 +14,7 @@
 @import "bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
-
+@import "../../../node_modules/bootstrap-select/sass/bootstrap-select.scss";
 html {
     position: relative;
     min-height: 100%;
@@ -39,10 +39,9 @@ body {
   width: 100%;
   padding-top: 30px;
   padding-right: 15px;
-  padding-left: 15px;
   margin-right: auto;
   margin-left: 70px;
- margin-bottom: 150px;
+  margin-bottom: 150px;
 }
 
 .container-fluid-flash {
