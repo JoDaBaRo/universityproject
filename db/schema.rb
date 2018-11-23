@@ -10,7 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_08_212504) do
+ActiveRecord::Schema.define(version: 2018_11_23_215348) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "licence_types", force: :cascade do |t|
+    t.string "description", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "licences", force: :cascade do |t|
+    t.string "description", default: "", null: false
+    t.integer "licence_type_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["licence_type_id"], name: "index_licences_on_licence_type_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "name"
