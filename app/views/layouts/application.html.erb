@@ -13,19 +13,19 @@
 
   <body>
     <%= render 'shared/navbar' %>
-    <div class="container-fluid-flash"">
-      <%= render 'shared/flash', flash: flash %>
-    </div>
+      <div class="container-fluid-flash"">
+        <%= render 'shared/flash', flash: flash %>
+      </div>
     <% if user_signed_in? %>
     
   <div class="container-fluid-body">
     <div class=row>
-      <div class="col-lg-2">
+      <div class="col-lg-2 col-sm-2">
         <%= render 'shared/menu' %>
       </div>
 
 
-      <div class="col-lg-9">
+      <div class="col-lg-10 col-sm-10">
         <%= render 'shared/card' do %>
         <%= yield %>
         <% end %>

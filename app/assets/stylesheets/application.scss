@@ -24,33 +24,32 @@ body {
   padding-bottom: 10px;
   font-family: 'Roboto', sans-serif;
   margin-bottom: 100px;
+  padding-right: 50px;
 }
 
 #tools-section { margin-bottom: 20px; }
 
 .center-image {
-  margin-left: 52px;
-  margin-right: 74px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin: 0 auto;
   margin-bottom: 50px;
-  margin-top: 50px;
 }
 
 .container-fluid-body {
   width: 100%;
   padding-top: 30px;
-  padding-right: 15px;
-  margin-right: auto;
-  margin-left: 70px;
+  padding-right: 40px;
+  padding-left: 45px;
   margin-bottom: 150px;
 }
 
 .container-fluid-flash {
   width: 100%;
   padding-top: 30px;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: 70px;
+  padding-left: 45px;
+  padding-right: 40px;
 }
 
 [v-cloak] { display: none }
