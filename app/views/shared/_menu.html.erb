@@ -1,5 +1,8 @@
 <div class="card">
    <div class="list-group">
+     <%= link_to(students_path, class: "list-group-item #{is_students_path}") do %>
+       <%= icon('fas','suitcase', 'Estudiantes') %>
+     <% end %>
       <a href="#" class="list-group-item list-group-item-action ">
       Cras justo odio
       </a>
@@ -7,5 +10,6 @@
       <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
       <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
       <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
+
     </div>
 </div>
