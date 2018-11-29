@@ -15,4 +15,28 @@ module ApplicationHelper
     when 'students' then 'active'
     end
   end
+
+  def is_vehicles_path
+    case request.params[:controller]
+    when 'vehicles' then 'active'
+    end
+  end  
+
+  def is_classes_path
+    case request.params[:controller]
+    when 'classes' then 'active'
+    end
+  end  
+
+  def is_teachers_path
+    case request.params[:controller]
+    when 'teachers' then 'active'
+    end
+  end  
+
+  def is_licences_path
+    case request.params[:controller]
+    when 'licences' then 'active'
+    end
+  end
 end
