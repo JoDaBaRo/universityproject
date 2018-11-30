@@ -14,16 +14,17 @@
         <table class="table table-condensed">
           <thead>
             <tr>
-              <th width='3%'></th>
-              <th width='25%'>Placa</th>
-              <th width='25%'>Nombre</th>
-              <th width='25%'>Marca</th>
+              <th width='10%'></th>
+              <th width='20%'>Placa</th>
+              <th width='20%'>Nombre</th>
+              <th width='20%'>Marca</th>
               <th width='20%'>Año del modelo</th>
             </tr>
           </thead>
           <tbody>
             <% @vehicles.each do |vehicle| %>
               <tr>
+                <td></td>
                 <td><%= vehicle.plate %></td>
                 <td><%= vehicle.name %></td>
                 <td><%= vehicle.brand %></td>

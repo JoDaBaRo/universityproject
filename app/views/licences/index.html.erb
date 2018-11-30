@@ -14,15 +14,16 @@
         <table class="table table-condensed">
           <thead>
             <tr>
-              <th width='3%'></th>
+              <th width='15%'></th>
               <th width='25%'>Categoria</th>
-              <th width='25%'>Vehiculos permitidos</th>
-              <th width='25%'>Tipo de servicio</th>
+              <th width='35%'>Vehiculos permitidos</th>
+              <th width='30%'>Tipo de servicio</th>
             </tr>
           </thead>
           <tbody>
             <% @licences.each do |licence| %>
               <tr>
+                <td></td>
                 <td><%= licence.licence_type.category %></td>
                 <td><%= licence.licence_type.allowed_vehicles %></td>
                 <td><%= licence.licence_type.service_type %></td>
