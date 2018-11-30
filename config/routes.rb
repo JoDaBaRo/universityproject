@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   root 'pages#welcome'
+  resources :people, :path => 'personas'
   resources :students, :path => 'estudiantes'
   resources :teachers, :path => 'profesores'
   resources :licences, :path => 'licencias'

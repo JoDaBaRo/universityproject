@@ -12,3 +12,4 @@ import 'bootstrap/dist/js/bootstrap';
 console.log('Hello World from Webpacker')
 require('./hello_vue');
 require('./sign_up');
+require('./people');

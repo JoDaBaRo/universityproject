@@ -1,5 +1,5 @@
 class Student < ApplicationRecord
-  belongs_to :customer
+  belongs_to :person
   belongs_to :licence
   belongs_to :class_teacher
   has_many :student_licences

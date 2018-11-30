@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <%= form_for(@student, html: {id: 'stduent_form'}, 'v-cloack' => true) do |f| %>
+
+<div class="row">
+  <div class="col-lg-6">
+    <div class="form-group">
+      <%= f.label :nombre %><br />
+      <%= f.text_field :name, class: 'form-control', "v-model" => "nameValue", "@input" => "fieldClass('user_name', $v.nameValue.$invalid), $v.nameValue.$touch()" %>
+      <div v-if="$v.nameValue.$dirty">
+        <p class="required-field" v-if="!$v.nameValue.required">*The name field is required!</p>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
+</div>  
+</div>  

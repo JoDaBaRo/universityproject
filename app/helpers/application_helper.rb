@@ -16,6 +16,12 @@ module ApplicationHelper
     end
   end
 
+  def is_people_path
+    case request.params[:controller]
+    when 'people' then 'active'
+    end
+  end
+
   def is_vehicles_path
     case request.params[:controller]
     when 'vehicles' then 'active'

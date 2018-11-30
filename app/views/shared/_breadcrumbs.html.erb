@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-lg-12">
+    <nav aria-labe= "breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <%= link_to(root_path) do %>
+          <i class="fas fa-home"></i>
+        <% end %>
+      </li>
+
+      <% breadcrumbs[:crumbs].each do |crumb|  %>
+        <li class="breadcrumb-item"><%= link_to crumb[:name], crumb[:path] %></li>
+      <% end %>
+      <% unless  breadcrumbs[:active_label].nil?%>
+      <li class="breadcrumb-item active"><%= breadcrumbs[:active_label] %></li>
+      <% end %>
+    </ol>
+    </nav>
+  </div>
+</div>

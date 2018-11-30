@@ -171,14 +171,14 @@ ActiveRecord::Schema.define(version: 2018_11_28_215147) do
 
   create_table "students", force: :cascade do |t|
     t.datetime "enroll_date", null: false
-    t.integer "customer_id", null: false
+    t.integer "person_id", null: false
     t.integer "licence_id", null: false
     t.integer "class_teacher_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["class_teacher_id"], name: "index_students_on_class_teacher_id"
-    t.index ["customer_id"], name: "index_students_on_customer_id"
     t.index ["licence_id"], name: "index_students_on_licence_id"
+    t.index ["person_id"], name: "index_students_on_person_id"
   end
 
   create_table "teacher_categories", force: :cascade do |t|

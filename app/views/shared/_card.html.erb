@@ -1,8 +1,13 @@
+<%= render 'shared/breadcrumbs', breadcrumbs: breadcrumbs%>
 <div class="card w-100">
     <div class="card-header">
-      <%= link_to( request.referer, class: 'btn btn-outline-dark btn-sm') do %>
-        <%= icon('fas', 'arrow-left', 'Volver') %>
-      <% end %>
+      <% has_return = nil if local_assigns[:has_return].nil? %>
+      <% return_path = request.referer if local_assigns[:return_path].nil? %>
+      <% unless local_assigns[:has_return].nil? %>
+        <%= link_to( return_path, class: 'btn btn-outline-dark btn-sm') do %>
+          <%= icon('fas', 'arrow-left', 'Volver') %>
+        <% end %>
+      <% end %>  
     </div>
   <div class="card-body">
     <%= yield %>
