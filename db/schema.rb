@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_28_170153) do
+ActiveRecord::Schema.define(version: 2018_11_28_215147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 2018_11_28_170153) do
   end
 
   create_table "licence_types", force: :cascade do |t|
-    t.string "allowed_vehicules", null: false
+    t.string "allowed_vehicles", null: false
     t.string "category", null: false
     t.string "service_type", null: false
     t.datetime "created_at", null: false
@@ -134,26 +134,6 @@ ActiveRecord::Schema.define(version: 2018_11_28_170153) do
     t.index ["student_id"], name: "index_practical_student_classes_on_student_id"
   end
 
-  create_table "practical_student_tests", force: :cascade do |t|
-    t.datetime "test_date", null: false
-    t.float "test_qualification", null: false
-    t.boolean "approve", null: false
-    t.integer "practical_test_id", null: false
-    t.integer "student_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["practical_test_id"], name: "index_practical_student_tests_on_practical_test_id"
-    t.index ["student_id"], name: "index_practical_student_tests_on_student_id"
-  end
-
-  create_table "practical_tests", force: :cascade do |t|
-    t.string "description", null: false
-    t.integer "test_length", null: false
-    t.decimal "test_value", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "student_advances", force: :cascade do |t|
     t.decimal "advance_value", null: false
     t.string "description", default: "", null: false
@@ -175,6 +155,18 @@ ActiveRecord::Schema.define(version: 2018_11_28_170153) do
     t.datetime "updated_at", null: false
     t.index ["licence_id"], name: "index_student_licences_on_licence_id"
     t.index ["student_id"], name: "index_student_licences_on_student_id"
+  end
+
+  create_table "student_tests", force: :cascade do |t|
+    t.datetime "test_date", null: false
+    t.float "test_qualification", null: false
+    t.boolean "approve", null: false
+    t.integer "test_id", null: false
+    t.integer "student_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["student_id"], name: "index_student_tests_on_student_id"
+    t.index ["test_id"], name: "index_student_tests_on_test_id"
   end
 
   create_table "students", force: :cascade do |t|
@@ -212,8 +204,8 @@ ActiveRecord::Schema.define(version: 2018_11_28_170153) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "theoretical_tests", force: :cascade do |t|
-    t.string "description", null: false
+  create_table "tests", force: :cascade do |t|
+    t.string "test_type", null: false
     t.integer "test_length", null: false
     t.decimal "test_value", null: false
     t.datetime "created_at", null: false
@@ -230,18 +222,6 @@ ActiveRecord::Schema.define(version: 2018_11_28_170153) do
     t.index ["student_id"], name: "index_theorical_student_classes_on_student_id"
     t.index ["teacher_id"], name: "index_theorical_student_classes_on_teacher_id"
     t.index ["teoric_class_id"], name: "index_theorical_student_classes_on_teoric_class_id"
-  end
-
-  create_table "theorical_student_tests", force: :cascade do |t|
-    t.datetime "test_date", null: false
-    t.float "test_qualification", null: false
-    t.boolean "approve", null: false
-    t.integer "theorical_test_id", null: false
-    t.integer "student_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["student_id"], name: "index_theorical_student_tests_on_student_id"
-    t.index ["theorical_test_id"], name: "index_theorical_student_tests_on_theorical_test_id"
   end
 
   create_table "users", force: :cascade do |t|

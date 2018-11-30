@@ -1,11 +1,19 @@
 <div class="card">
    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action ">
-      Cras justo odio
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-      <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-      <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-      <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
+     <%= link_to(students_path, class: "list-group-item #{is_students_path}") do %>
+       <%= icon('fas','user-alt', 'Estudiantes') %>
+     <% end %>
+     <%= link_to(licences_path, class: "list-group-item #{is_licences_path}") do %>
+       <%= icon('fas','address-card', 'Licencia') %>
+     <% end %>
+     <%= link_to(teachers_path, class: "list-group-item #{is_teachers_path}") do %>
+       <%= icon('fas','user-tie', 'Profesores') %>
+     <% end %>
+     <%= link_to(vehicles_path, class: "list-group-item #{is_vehicles_path}") do %>
+       <%= icon('fas','car', 'Vehiculos') %>
+     <% end %>
+     <%= link_to(classes_path, class: "list-group-item #{is_classes_path}") do %>
+       <%= icon('fas','chalkboard-teacher', 'Clases') %>
+     <% end %>
     </div>
 </div>

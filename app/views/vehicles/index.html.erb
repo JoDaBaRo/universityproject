@@ -1,0 +1,39 @@
+<% if @vehicles.empty? %>
+  <br>
+  <div class="alert alert-info">
+    <strong>&iexcl;Atenci&oacute;n!</strong>
+      Aun no se registran vehiculos, has clic en el bot&oacute;n <%= fw_icon('plus') %> para agregar el primero.
+  </div>
+<% else %>
+<div class="row">
+    <div class="col-lg-12">
+      <br>
+      <h5>Listado de vehiculos registrados</h5>
+      <hr>
+      <div class="table-responsive">
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th width='10%'></th>
+              <th width='20%'>Placa</th>
+              <th width='20%'>Nombre</th>
+              <th width='20%'>Marca</th>
+              <th width='20%'>Año del modelo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @vehicles.each do |vehicle| %>
+              <tr>
+                <td></td>
+                <td><%= vehicle.plate %></td>
+                <td><%= vehicle.name %></td>
+                <td><%= vehicle.brand %></td>
+                <td><%= vehicle.model_year %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% end %>

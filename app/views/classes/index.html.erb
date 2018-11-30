@@ -1,0 +1,36 @@
+<% if @classes.empty? %>
+  <br>
+  <div class="alert alert-info">
+    <strong>&iexcl;Atenci&oacute;n!</strong>
+      Aun no se registran clases, has clic en el bot&oacute;n <%= fw_icon('plus') %> para agregar la primera.
+  </div>
+<% else %>
+<div class="row">
+    <div class="col-lg-12">
+      <br>
+      <h5>Listado de clases registradas</h5>
+      <hr>
+      <div class="table-responsive">
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th width='3%'></th>
+              <th width='25%'>Descripcion</th>
+              <th width='25%'>Tiempo de duracion</th>
+              <th width='25%'>Categoria licencia</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @classes.each do |lesson| %>
+              <tr>
+                <td><%= lesson.description %></td>
+                <td><%= lesson.class_length %></td>
+                <td><%= lesson.licence.licence_type.category %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% end %>
