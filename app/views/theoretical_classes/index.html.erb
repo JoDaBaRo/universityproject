@@ -1,37 +1,42 @@
 <%= render 'shared/card',has_return: true, breadcrumbs: {crumbs: [], active_label: "Clases"} do %>
-<% if @classes[:practical].empty? && @classes[:theoretical].empty? %>
+<div class="row">
+  <div class="col-lg-12">
+    <%= link_to(new_theoretical_class_path, class: 'btn btn-primary') do%>
+     <%= icon('fas','plus', 'Agregar') %>
+     <% end %>
+  </div>
+</div>
+<% if @theoretical_classes.empty? %>
   <br>
   <div class="alert alert-info">
     <strong>&iexcl;Atenci&oacute;n!</strong>
-      Aun no se registran clases, has clic en el bot&oacute;n <%= fw_icon('plus') %> para agregar la primera.
+      Aun no se registran clases teoricas, has clic en el bot&oacute;n <%= fw_icon('plus') %> para agregar la primera.
   </div>
 <% else %>
 <div class="row">
     <div class="col-lg-12">
       <br>
-      <h5>Listado de clases registradas</h5>
-      <hr>
+      <h5>Listado de clases teoricas registradas</h5>
+      <br>
       <div class="table-responsive">
         <table class="table table-condensed">
           <thead>
             <tr>
-              <th width='3%'></th>
+              <th width='10%'></th>
               <th width='25%'>Descripcion</th>
               <th width='25%'>Tiempo de duracion</th>
-              <th width='25%'>Categoria licencia</th>
             </tr>
           </thead>
           <tbody>
-            <% @classes[:practical].each do |class_type| %>
+            <% @theoretical_classes.each do |class_type| %>
                 <tr>
                   <td>
-                    <%= link_to("#", class: 'btn btn-outline-dark btn-sm') do %>
+                    <%= link_to(edit_theoretical_class_path(class_type), class: 'btn btn-outline-dark btn-sm') do %>
                       <%= icon('fas', 'pencil-alt', 'editar') %>
                     <% end %>
                   </td>
                   <td><%= class_type.description %></td>
                   <td><%= class_type.class_length %></td>
-                  <td><%= class_type.licence_types.empty? ? "-" : class_type.licence_types.first.category %></td>
                 </tr>
             <% end %>
           </tbody>

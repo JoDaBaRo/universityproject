@@ -18,5 +18,11 @@
      <%= link_to(classes_path, class: "list-group-item #{is_classes_path}") do %>
        <%= icon('fas','chalkboard-teacher', 'Clases') %>
      <% end %>
+     <%= link_to(theoretical_classes_path, class: "list-group-item #{is_theoretical_classes_path}") do %>
+       <%= icon('fas','chalkboard-teacher', 'Clases teoricas') %>
+     <% end %>
+     <%= link_to(practical_classes_path, class: "list-group-item #{is_practical_classes_path}") do %>
+       <%= icon('fas','chalkboard-teacher', 'Clases practicas') %>
+     <% end %>
     </div>
 </div>

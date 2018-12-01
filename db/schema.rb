@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_30_235903) do
+ActiveRecord::Schema.define(version: 2018_12_01_155353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,10 +97,17 @@ ActiveRecord::Schema.define(version: 2018_11_30_235903) do
   create_table "practical_classes", force: :cascade do |t|
     t.string "description", null: false
     t.integer "class_length", null: false
-    t.integer "licence_type_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["licence_type_id"], name: "index_practical_classes_on_licence_type_id"
+  end
+
+  create_table "practical_licence_classes", force: :cascade do |t|
+    t.integer "licence_type_id", null: false
+    t.integer "practical_class_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["licence_type_id"], name: "index_practical_licence_classes_on_licence_type_id"
+    t.index ["practical_class_id"], name: "index_practical_licence_classes_on_practical_class_id"
   end
 
   create_table "practical_student_classes", force: :cascade do |t|

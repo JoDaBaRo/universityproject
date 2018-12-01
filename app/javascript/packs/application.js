@@ -13,3 +13,5 @@ console.log('Hello World from Webpacker')
 require('./hello_vue');
 require('./sign_up');
 require('./people');
+require('./theoretical_classes');
+require('./practical_classes');
