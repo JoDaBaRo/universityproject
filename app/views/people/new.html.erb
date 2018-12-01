@@ -1,0 +1,9 @@
+<%= render 'shared/card', has_return: true, breadcrumbs: {crumbs: [{name: "Personas", path: people_path}], active_label: "Nueva"} do %>
+<div class="row">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <h5>Nueva Persona</h5>
+    <hr>
+    <%= render 'form', person: @person %>
+  </div>
+</div>
+<% end %>

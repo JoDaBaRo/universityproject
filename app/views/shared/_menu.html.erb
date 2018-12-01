@@ -1,5 +1,8 @@
 <div class="card">
    <div class="list-group">
+    <%= link_to(people_path, class: "list-group-item #{is_people_path}") do %>
+       <%= icon('fas','users', 'Personas') %>
+     <% end %>
      <%= link_to(students_path, class: "list-group-item #{is_students_path}") do %>
        <%= icon('fas','user-alt', 'Estudiantes') %>
      <% end %>

@@ -1,0 +1,54 @@
+<%= render 'shared/card',has_return: true, breadcrumbs: {crumbs: [], active_label: "Personas"} do %>
+<div class="row">
+  <div class="col-lg-12">
+    <%= link_to(new_person_path, class: 'btn btn-primary') do%>
+     <%= icon('fas','plus', 'Agregar') %>
+     <% end %>
+  </div>
+</div>
+<% if @people.empty? %>
+  <br>
+  <div class="alert alert-info">
+    <strong>&iexcl;Atenci&oacute;n!</strong>
+      Aun no se registran personas, has clic en el bot&oacute;n <%= fw_icon('plus') %> para agregar el primero.
+  </div>
+<% else %>
+<div class="row">
+    <div class="col-lg-12">
+      <br>
+      <h5>Listado de estudiantes registrados</h5>
+      <br>
+      <div class="table-responsive">
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th width='5%'></th>
+              <th width='10%'>Nombre</th>
+              <th width='10%'>Apellido</th>
+              <th width='10%'># identificacion</th> 
+              <th width='10%'>Numero de telefono</th>
+              <th width='15%'>Direccion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @people.each do |person| %>
+              <tr>
+                <td>
+                  <%= link_to(edit_person_path(person), class: 'btn btn-outline-dark btn-sm') do %>
+                    <%= icon('fas', 'pencil-alt', 'editar') %>
+                  <% end %>
+                </td>
+                <td><%= person.name %></td>
+                <td><%= person.last_name %></td>
+                <td><%= person.id_number %></td>
+                <td><%= person.phone_number %></td>
+                <td><%= person.address %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% end %>
