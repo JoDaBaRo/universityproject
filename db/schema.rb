@@ -130,12 +130,12 @@ ActiveRecord::Schema.define(version: 2018_11_30_235903) do
 
   create_table "student_licences", force: :cascade do |t|
     t.integer "student_id", null: false
-    t.integer "licence_id", null: false
+    t.integer "licence_type_id", null: false
     t.datetime "expedition_date", null: false
     t.datetime "expiration_date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["licence_id"], name: "index_student_licences_on_licence_id"
+    t.index ["licence_type_id"], name: "index_student_licences_on_licence_type_id"
     t.index ["student_id"], name: "index_student_licences_on_student_id"
   end
 
