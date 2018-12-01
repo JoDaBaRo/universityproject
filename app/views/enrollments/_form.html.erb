@@ -1,0 +1,107 @@
+<div class="row">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <%= form_for(@person, html: {id: 'enrollment_form',
+        'data-name'  => @person.name,
+        'data-last-name'  => @person.last_name,
+        'data-id-number' => @person.id_number,
+        'data-address'  => @person.address
+      }
+    ) do |f| %>
+
+<div class="row">
+  <div class="col-lg-5">
+    <div class="form-group">
+      <%= f.label :fecha_de_matricula %>*<br />
+      <%= f.text_field :enroll_date, class: 'form-control', "v-model" => "nameValue", "@input" => "fieldClass('person_name', $v.nameValue.$invalid), $v.nameValue.$touch()" %>
+      <div v-if="$v.nameValue.$dirty">
+        <p class="required-field" v-if="!$v.nameValue.required">*El campo de nombre es requerido!</p>
+      </div>
+    </div>
+  </div>  
+</div>
+
+<div class="row">
+  <div class="col-lg-5">
+    <div class="form-group">
+      <%= f.label :tipo_de_licencia %><br />
+      <%= f.collection_select(
+          :licence_type_id,
+          #this will be a helper method return
+          PERSON_ROLES,
+          :last,
+          :first,
+          {include_blank: true},
+          {
+            class: 'form-control selectpicker',
+            multiple: true  
+          }
+      )%>
+    </div>
+  </div>  
+</div>
+
+<div class="row">
+  <div class="col-lg-5">
+    <div class="form-group">
+      <%= f.label :profesor_asignado %><br />
+      <%= f.collection_select(
+          :category_teacher_id,
+          #this will be a helper method return
+          PERSON_ROLES,
+          :last,
+          :first,
+          {include_blank: true},
+          {
+            class: 'form-control selectpicker',
+            multiple: true  
+          }
+      )%>
+    </div>
+  </div>  
+</div>
+
+<div class="row">
+  <div class="col-sm-10 col-md-10 col-lg-10">
+    <div v-show="$v.$invalid" class="alert alert-warning" role="alert">
+      <i class="fas fa-exclamation-circle"></i>
+        Los campos con el * son requeridos
+    </div>
+  </div>
+</div>
+<hr>
+<div class="actions">
+  <%= f.submit "Sign up", class: 'btn btn-primary', ':disabled' => "$v.$anyError || $v.$invalid"%>
+  <%= link_to 'Cancelar', people_path, class: 'btn btn-outline-secondary' %>
+  <% unless @person.new_record? %>
+    <%= link_to('#', class: 'btn btn-outline-danger float-right', "data-target" => "#destroyModal", "data-toggle" => "modal") do %>
+      <i class="fas fa-trash-alt"></i>
+    <% end -%>
+
+    <!-- BEGIN DESTROY MODAL -->
+    <div id="destroyModal" class="modal fade" aria-hidden="true" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Eliminar persona</h4>
+            <button class="close" aria-hidden="true" data-dismiss="modal" type="button">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p>
+                Esta seguro de eliminar la persona con el número <b><%= person.name %></b>? <br> Tenga en cuenta que esta acción es permanente.
+            </p>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-outline-secondary" data-dismiss="modal" type="button">Cerrar</button>
+              <%= link_to "Eliminar", @person, method: :delete, class: 'btn btn-danger' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+<% end %>
+</div>
+
+</div>  
+</div>
+
