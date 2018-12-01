@@ -1,7 +1,6 @@
 class Enrollment < ApplicationRecord
-  belongs_to :customer
-  belongs_to :licence
-  belongs_to :class_teacher
+  belongs_to :student
+  belongs_to :licence_type
   has_many :student_licences
   has_many :student_advances
   has_many :control_student_tests
