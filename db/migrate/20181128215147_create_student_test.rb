@@ -5,10 +5,10 @@ class CreateStudentTest < ActiveRecord::Migration[5.2]
       t.float :test_qualification, null: false
       t.boolean :approve, null: false
       t.integer :test_id, null: false
-      t.integer :student_id, null: false
+      t.integer :enrollment_id, null: false
       t.timestamps
     end
     add_index :student_tests, :test_id
-    add_index :student_tests, :student_id
+    add_index :student_tests, :enrollment_id
   end
 end

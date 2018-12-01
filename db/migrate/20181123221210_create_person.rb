@@ -6,6 +6,7 @@ class CreatePerson < ActiveRecord::Migration[5.2]
       t.string :address, null: false
       t.string :phone_number, null: false, default: ""
       t.string :id_number, null: false
+      t.string :role, null: false, array: true
       t.timestamps
     end
     add_index :people, :id_number, unique: true
