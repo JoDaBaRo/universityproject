@@ -15,6 +15,7 @@ before_action :set_person, only: [:edit, :show, :update, :destroy]
   end
 
   def create
+    binding.pry
     @person = Person.new(person_params)
 
     respond_to do |format|
@@ -57,7 +58,7 @@ def person_params
   :address,
   :phone_number,
   :id_number,
-  :roles
+  role: []
   )
 end
 

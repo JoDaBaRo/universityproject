@@ -1,20 +1,19 @@
 <div class="row">
   <div class="col-sm-12 col-md-12 col-lg-12">
-    <%= form_for(@person, html: {id: 'enrollment_form',
-        'data-name'  => @person.name,
-        'data-last-name'  => @person.last_name,
-        'data-id-number' => @person.id_number,
-        'data-address'  => @person.address
+    <%= form_for([@student, enrollment], html: {id: 'enrollment_form', "v-cloak
+" => "true",
+        'data-enrollment-date'  => enrollment.enroll_date,
+        'data-licence-type-id'  => enrollment.licence_type_id,
+        'data-category_teacher_id' => enrollment.id
       }
     ) do |f| %>
-
 <div class="row">
   <div class="col-lg-5">
     <div class="form-group">
       <%= f.label :fecha_de_matricula %>*<br />
-      <%= f.text_field :enroll_date, class: 'form-control', "v-model" => "nameValue", "@input" => "fieldClass('person_name', $v.nameValue.$invalid), $v.nameValue.$touch()" %>
-      <div v-if="$v.nameValue.$dirty">
-        <p class="required-field" v-if="!$v.nameValue.required">*El campo de nombre es requerido!</p>
+        <%= f.date_field :enroll_date, class: 'form-control datepicker', "v-model" => "enrollDateValue", "@input" => "fieldClass('enrollment_enroll_date', $v.enrollDateValue.$invalid), $v.enrollDateValue.$touch()" %>
+      <div v-if="$v.enrollDateValue.$dirty">
+        <p class="required-field" v-if="!$v.enrollDateValue.required">*El campo es requerido!</p>
       </div>
     </div>
   </div>  
@@ -23,17 +22,19 @@
 <div class="row">
   <div class="col-lg-5">
     <div class="form-group">
-      <%= f.label :tipo_de_licencia %><br />
+      <%= f.label :tipo_de_licencia %>*<br />
       <%= f.collection_select(
           :licence_type_id,
           #this will be a helper method return
-          PERSON_ROLES,
-          :last,
-          :first,
+          LicenceType.all,
+          :id,
+          :category,
           {include_blank: true},
           {
             class: 'form-control selectpicker',
-            multiple: true  
+            "v-model" => "licenceTypeValue",
+            "v-on:change" => "fetchTeachers"
+
           }
       )%>
     </div>
@@ -43,21 +44,18 @@
 <div class="row">
   <div class="col-lg-5">
     <div class="form-group">
-      <%= f.label :profesor_asignado %><br />
-      <%= f.collection_select(
-          :category_teacher_id,
-          #this will be a helper method return
-          PERSON_ROLES,
-          :last,
-          :first,
-          {include_blank: true},
-          {
-            class: 'form-control selectpicker',
-            multiple: true  
-          }
-      )%>
+      <label for="teacher_id">Profesor</label>
+      <div>
+        <select id="teachers-list" class='form-control' v-model="categoryTeacherValue" data-fieldname = "categoryTeacherValue">
+          <option label="" ></option>
+          <option v-for="teacher in teachers" :value="teacher.id"> {{teacher.name}} </option>
+        </select>
+      </div>
     </div>
   </div>  
+</div>
+<div>
+  <%= f.hidden_field :teacher_id, {"v-model" => "categoryTeacherValue"} %>
 </div>
 
 <div class="row">
@@ -72,7 +70,7 @@
 <div class="actions">
   <%= f.submit "Sign up", class: 'btn btn-primary', ':disabled' => "$v.$anyError || $v.$invalid"%>
   <%= link_to 'Cancelar', people_path, class: 'btn btn-outline-secondary' %>
-  <% unless @person.new_record? %>
+  <% unless enrollment.new_record? %>
     <%= link_to('#', class: 'btn btn-outline-danger float-right', "data-target" => "#destroyModal", "data-toggle" => "modal") do %>
       <i class="fas fa-trash-alt"></i>
     <% end -%>

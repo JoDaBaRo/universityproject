@@ -1,14 +1,14 @@
 class EnrollmentsController < ApplicationController
 before_action :authenticate_user!
 before_action :set_enrollment, only: [:edit, :show, :update, :destroy]
-before_action :set_set_student, only: [:edit, :show, :update, :destroy]
+before_action :set_student
 
   def index
     @enrollments = @student.enrollments.all
   end
 
   def new
-    @enrollments = @student.enrollments.new
+    @enrollment = @student.enrollments.new
   end
 
   def edit
@@ -66,7 +66,7 @@ def set_enrollment
 end
 
 def set_student
-  @student = Student.find(params[:id])
+  @student = Student.find(params[:student_id])
 end
 
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_30_235903) do
+ActiveRecord::Schema.define(version: 2018_12_01_161421) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,12 +57,12 @@ ActiveRecord::Schema.define(version: 2018_11_30_235903) do
     t.integer "practical_hours", null: false
     t.integer "student_id", null: false
     t.integer "licence_type_id", null: false
-    t.integer "teacher_category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "teacher_id"
     t.index ["licence_type_id"], name: "index_enrollments_on_licence_type_id"
     t.index ["student_id"], name: "index_enrollments_on_student_id"
-    t.index ["teacher_category_id"], name: "index_enrollments_on_teacher_category_id"
+    t.index ["teacher_id"], name: "index_enrollments_on_teacher_id"
   end
 
   create_table "general_costs", force: :cascade do |t|
@@ -130,12 +130,12 @@ ActiveRecord::Schema.define(version: 2018_11_30_235903) do
 
   create_table "student_licences", force: :cascade do |t|
     t.integer "student_id", null: false
-    t.integer "licence_id", null: false
+    t.integer "licence_type_id", null: false
     t.datetime "expedition_date", null: false
     t.datetime "expiration_date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["licence_id"], name: "index_student_licences_on_licence_id"
+    t.index ["licence_type_id"], name: "index_student_licences_on_licence_type_id"
     t.index ["student_id"], name: "index_student_licences_on_student_id"
   end
 

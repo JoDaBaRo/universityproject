@@ -1,7 +1,7 @@
-<%= render 'shared/card',has_return: true, breadcrumbs: {crumbs: [name: 'Estdiantes'], path: students_path, active_label: "Matriculas"} do %>
+<%= render 'shared/card',has_return: true, breadcrumbs: {crumbs: [name: 'Estdiantes'], path: students_path, active_label: "Matriculas del estudiante: #{@student.person.name} #{@student.person.last_name}"} do %>
 <div class="row">
   <div class="col-lg-12">
-    <%= link_to(new_students_enrollment_path, class: 'btn btn-primary') do%>
+    <%= link_to(new_student_enrollment_path, class: 'btn btn-primary') do%>
      <%= icon('fas','plus', 'Agregar') %>
      <% end %>
   </div>
@@ -23,11 +23,10 @@
           <thead>
             <tr>
               <th width='5%'></th>
-              <th width='10%'>Nombre</th>
-              <th width='10%'>Apellido</th>
-              <th width='10%'># identificacion</th> 
-              <th width='10%'>Numero de telefono</th>
-              <th width='15%'>Direccion</th>
+              <th width='10%'>Tipo de licencia</th>
+              <th width='10%'>Horas teoricas</th>
+              <th width='10%'>Horas practicas</th> 
+              <th width='10%'>Fecha de matricual</th>
             </tr>
           </thead>
           <tbody>
@@ -38,11 +37,10 @@
                     <%= icon('fas', 'pencil-alt', 'editar') %>
                   <% end %>
                 </td>
-                <td><%= enrollment.name %></td>
-                <td><%= enrollment.last_name %></td>
-                <td><%= enrollment.id_number %></td>
-                <td><%= enrollment.phone_number %></td>
-                <td><%= enrollment.address %></td>
+                <td><%= enrollment.licence_type_id %></td>
+                <td><%= enrollment.theoretical_hours %></td>
+                <td><%= enrollment.practical_hours %></td>
+                <td><%= enrollment.enroll_date %></td>
               </tr>
             <% end %>
           </tbody>

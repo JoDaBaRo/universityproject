@@ -1,21 +1,4 @@
 <%= render 'shared/card',has_return: true, breadcrumbs: {crumbs: [], active_label: "Estudiantes"} do %>
-<div class="row">
-  <div class="col-lg-12">
-    <%= form_tag new_student_path, method: 'get', class: 'form-inline', autocomplete: :off do %>
-    <div class="input-group mb-12" style="width: 80%;">
-      <%= select_tag :person_id, options_from_collection_for_select(Person.all, "id", "name"), include_blank: true, class: 'form control selectpicker', 'data-live-search'=>"true", 'aria-describedby'=>"submit-button", 'data-width'=>"60%" %>
-      <div class="input-group-append">
-        <%= text_field_tag :enroll_date, "", class: 'form-control', placeholder: "#{Date.today.strftime('%Y/%m/%d')}"%>
-      </div>
-      <div class="input-group-append">
-        <%= button_tag :submit, id: 'submit-button', class: 'btn btn-primary' do%>
-          <%= icon('fas', 'plus') %>
-        <% end %>
-      </div>
-    </div>
-    <% end %>
-  </div>
-</div>
 <% if @students.empty? %>
   <br>
   <div class="alert alert-info">
@@ -27,25 +10,34 @@
     <div class="col-lg-12">
       <br>
       <h5>Listado de estudiantes registrados</h5>
-      <hr>
+      <br>
       <div class="table-responsive">
         <table class="table table-condensed">
           <thead>
             <tr>
-              <th width='3%'></th>
+              <th width="3%"></th>
+              <th width="3%"></th>
               <th width='25%'>Nombre</th>
               <th width='25%'>Apellido</th>
               <th width='25%'># identificacion</th>
-              <th width='20%'>Fecha matricula</th>
             </tr>
           </thead>
           <tbody>
             <% @students.each do |student| %>
               <tr>
+                <td>
+                  <%= link_to(student_enrollments_path(student), class: 'btn btn-outline-dark btn-sm') do %>
+                    <%= icon('fas', 'book', 'Matriculas') %>
+                  <% end %>
+                </td>
+                <td>
+                  <%= link_to(edit_person_path(student.person), class: 'btn btn-outline-dark btn-sm') do %>
+                    <%= icon('fas', 'book', 'Editar') %>
+                  <% end %>
+                </td>
                 <td><%= student.person.name %></td>
                 <td><%= student.person.last_name %></td>
                 <td><%= student.person.id_number %></td>
-                <td><%= student.enroll_date.strftime("%Y/%m/%d") %></td>
               </tr>
             <% end %>
           </tbody>
