@@ -2,7 +2,7 @@ class ClassesController < ApplicationController
 before_action :authenticate_user!
 
 def index
-  @classes = []
+  @classes = {practical: PracticalClass.all, theoretical: TheoreticalClass.all}
 end
 
 def new

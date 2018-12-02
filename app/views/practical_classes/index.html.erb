@@ -1,16 +1,23 @@
 <%= render 'shared/card',has_return: true, breadcrumbs: {crumbs: [], active_label: "Clases"} do %>
-<% if @classes[:practical].empty? && @classes[:theoretical].empty? %>
+<div class="row">
+  <div class="col-lg-12">
+    <%= link_to(new_practical_class_path, class: 'btn btn-primary') do%>
+     <%= icon('fas','plus', 'Agregar') %>
+     <% end %>
+  </div>
+</div>
+<% if @practical_classes.empty? %>
   <br>
   <div class="alert alert-info">
     <strong>&iexcl;Atenci&oacute;n!</strong>
-      Aun no se registran clases, has clic en el bot&oacute;n <%= fw_icon('plus') %> para agregar la primera.
+      Aun no se registran clases practicas, has clic en el bot&oacute;n <%= fw_icon('plus') %> para agregar la primera.
   </div>
 <% else %>
 <div class="row">
     <div class="col-lg-12">
       <br>
-      <h5>Listado de clases registradas</h5>
-      <hr>
+      <h5>Listado de clases practicas registradas</h5>
+      <br>
       <div class="table-responsive">
         <table class="table table-condensed">
           <thead>
@@ -22,10 +29,10 @@
             </tr>
           </thead>
           <tbody>
-            <% @classes[:practical].each do |class_type| %>
+            <% @practical_classes.each do |class_type| %>
                 <tr>
                   <td>
-                    <%= link_to("#", class: 'btn btn-outline-dark btn-sm') do %>
+                    <%= link_to(edit_practical_class_path(class_type), class: 'btn btn-outline-dark btn-sm') do %>
                       <%= icon('fas', 'pencil-alt', 'editar') %>
                     <% end %>
                   </td>

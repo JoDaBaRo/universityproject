@@ -1,5 +1,6 @@
 class PracticalClass < ApplicationRecord
   has_many :vehicle_consumes
-  belongs_to :licence_type
+  has_many :practical_licence_classes
+  has_many :licence_types, through: :practical_licence_classes
   has_many :practical_student_classes
 end

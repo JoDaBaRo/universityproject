@@ -20,4 +20,12 @@ vehicle_one = Vehicle.create(plate: "AAA-000", brand: "Ferrari", displacement: "
 vehicle_two = Vehicle.create(plate: "BBB-000", brand: "Suzuki", displacement: "150 cilindraje", name: "ax-4", model_year: "2012", vehicle_category_id: vehicle_category_two[:id])
 vehicle_three = Vehicle.create(plate: "CCC-000", brand: "Mazda", displacement: "150 cilindraje", name: "Trasan", model_year: "2018", vehicle_category_id: vehicle_category_four[:id])
 
+practical1 = PracticalClass.create(class_length: 20, description: "parqueo1")
+practical1 = PracticalClass.create(class_length: 30, description: "parqueo2")
+practical1 = PracticalClass.create(class_length: 40, description: "parqueo3")
+
+PracticalLicenceClass.create(licence_type_id: licence_type_one[:id], practical_class_id: practical1[:id])
+
+person1 = Person.create(name: "cristian", last_name: "peñaranda", address: "Av 2", id_number: "1090", role: "teacher") 
+
 #Person.create(name: "Cristian Leonardo", last_name: "Peñaranda Mora", address: "Av 2", phone_number: "3208597898", id_number: "1090")
