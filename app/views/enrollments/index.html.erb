@@ -1,0 +1,52 @@
+<%= render 'shared/card',has_return: true, breadcrumbs: {crumbs: [name: 'Estdiantes'], path: students_path, active_label: "Matriculas del estudiante: #{@student.person.name} #{@student.person.last_name}"} do %>
+<div class="row">
+  <div class="col-lg-12">
+    <%= link_to(new_student_enrollment_path, class: 'btn btn-primary') do%>
+     <%= icon('fas','plus', 'Agregar') %>
+     <% end %>
+  </div>
+</div>
+<% if @enrollments.empty? %>
+  <br>
+  <div class="alert alert-info">
+    <strong>&iexcl;Atenci&oacute;n!</strong>
+      Aun no se registran matriculas para este estudiante, has clic en el bot&oacute;n <%= fw_icon('plus') %> para agregar la primera.
+  </div>
+<% else %>
+<div class="row">
+    <div class="col-lg-12">
+      <br>
+      <h5>Listado de matriculas registradas para este estudiante</h5>
+      <br>
+      <div class="table-responsive">
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th width='5%'></th>
+              <th width='10%'>Tipo de licencia</th>
+              <th width='10%'>Horas teoricas</th>
+              <th width='10%'>Horas practicas</th> 
+              <th width='10%'>Fecha de matricual</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @enrollments.each do |enrollment| %>
+              <tr>
+                <td>
+                  <%= link_to(edit_student_enrollment_path(enrollment), class: 'btn btn-outline-dark btn-sm') do %>
+                    <%= icon('fas', 'pencil-alt', 'editar') %>
+                  <% end %>
+                </td>
+                <td><%= enrollment.licence_type_id %></td>
+                <td><%= enrollment.theoretical_hours %></td>
+                <td><%= enrollment.practical_hours %></td>
+                <td><%= enrollment.enroll_date %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% end %>

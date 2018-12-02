@@ -10,7 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
       nameValue: document.getElementById('person_form').getAttribute('data-name'),
       lastNameValue: document.getElementById('person_form').getAttribute('data-last-name'),
       idNumberValue: document.getElementById('person_form').getAttribute('data-id-number'),
-      addressValue: document.getElementById('person_form').getAttribute('data-address')
+      addressValue: document.getElementById('person_form').getAttribute('data-address'),
+      roleValue: document.getElementById('person_form').getAttribute('data-address')
     },
     validations: {
       nameValue: {
@@ -23,6 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
         required,
       },
       addressValue: {
+        required,
+      },
+      roleValue: {
         required,
       },
     },

@@ -1,10 +1,12 @@
 <div class="row">
   <div class="col-sm-12 col-md-12 col-lg-12">
-    <%= form_for(@person, html: {id: 'person_form',
+    <%= form_for(@person, html: {id: 'person_form', "v-cloak
+" => "true",
         'data-name'  => @person.name,
         'data-last-name'  => @person.last_name,
         'data-id-number' => @person.id_number,
-        'data-address'  => @person.address
+        'data-address'  => @person.address,
+        'data-role'  => @person.role        
       }
     ) do |f| %>
 
@@ -57,22 +59,20 @@
       <%= f.label :numero_telefonico %><br />
       <%= f.text_field :phone_number, class: 'form-control'%>
     </div>
-  </div>  
-</div>
-
-<div class="row">
+  </div>
   <div class="col-lg-5">
     <div class="form-group">
-      <%= f.label :rol %><br />
+      <%= f.label :rol %>*<br />
       <%= f.collection_select(
           :role,
           PERSON_ROLES,
           :last,
           :first,
-          {include_blank: true},
+          {include_blank: false},
           {
             class: 'form-control selectpicker',
-            multiple: true  
+            multiple: true,
+            "v-model" => "roleValue"  
           }
       )%>
     </div>
