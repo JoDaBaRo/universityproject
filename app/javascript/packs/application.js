@@ -8,7 +8,7 @@
 // layout file, like app/views/layouts/application.html.erb
 //= require_tree .
 //= require  hello_vue
-import 'bootstrap/dist/js/bootstrap';
+import 'bootstrap/dist/js/bootstrap'; 
 console.log('Hello World from Webpacker')
 require('./hello_vue');
 require('./sign_up');

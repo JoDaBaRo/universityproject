@@ -37,6 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       fetchTeachers() {
         this.axios.get('/api/teachers/' + this.licenceTypeValue).then(response => (this.teachers = response.data))
+        $('.selectpicker').selectpicker();
+        $('.selectpicker').selectpicker('refresh');
       }
     } 
   })

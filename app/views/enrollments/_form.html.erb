@@ -48,7 +48,7 @@
       <div>
         <select id="teachers-list" class='form-control' v-model="categoryTeacherValue" data-fieldname = "categoryTeacherValue">
           <option label="" ></option>
-          <option v-for="teacher in teachers" :value="teacher.id"> {{teacher.name}} </option>
+          <option v-for="teacher in teachers" :value="teacher.id"> {{teacher.name}} {{teacher.last_name}} - {{teacher.id_number}} </option>
         </select>
       </div>
     </div>

@@ -16,10 +16,10 @@ before_action :set_student
   end
 
   def create
-    h = {practical_hours: LicenceType.find(enrollment_params[:licence_type_id]).practical_hours}
+    h = {}
+    h["practical_hours"] = LicenceType.find(enrollment_params[:licence_type_id]).practical_hours
     h.merge!(enrollment_params)
     @enrollment = @student.enrollments.new(h)
-
     respond_to do |format|
       if @enrollment.save
         format.html { redirect_to student_enrollments_path, notice: 'La matricula fue creada exitosamente.' }

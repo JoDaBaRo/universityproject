@@ -38,7 +38,7 @@
                   </td>
                   <td><%= test.test_type %></td>
                   <td><%= test.test_length %></td>
-                  <td><%= test.test_value %></td>
+                  <td><%= number_to_currency(test.test_value) %></td>
                 </tr>
             <% end %>
           </tbody>
