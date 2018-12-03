@@ -1,4 +1,9 @@
 PERSON_ROLES = {
  "Profesor" => "teacher",
- "Estdiante" => "student"
+ "Estudiante" => "student"
+}
+
+TEST_TYPES = {
+ "Practica" => "Practica",
+ "Teorica" => "Teorica"
 }

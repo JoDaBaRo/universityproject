@@ -1,0 +1,50 @@
+<%= render 'shared/card',has_return: true, breadcrumbs: {crumbs: [], active_label: "Tipo licencia"} do %>
+<div class="row">
+  <div class="col-lg-12">
+    <%= link_to(new_vehicle_category_path, class: 'btn btn-primary') do%>
+     <%= icon('fas','plus', 'Agregar') %>
+     <% end %>
+  </div>
+</div>
+<% if @vehicle_categories.empty? %>
+  <br>
+  <div class="alert alert-info">
+    <strong>&iexcl;Atenci&oacute;n!</strong>
+      Aun no se registran tipos de categorias, has clic en el bot&oacute;n <%= fw_icon('plus') %> para agregar la primera.
+  </div>
+<% else %>
+<div class="row">
+    <div class="col-lg-12">
+      <br>
+      <h5>Listado de tipo de categorias para vehiculos</h5>
+      <br>
+      <div class="table-responsive">
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th width='10%'></th>
+              <th width='25%'>Tipo de vehiculo</th>
+              <th width='25%'>Tarifa por hora</th>
+              <th width='25%'>Tipo licencia</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @vehicle_categories.each do |vehicle_category| %>
+                <tr>
+                  <td>
+                    <%= link_to(edit_vehicle_category_path(vehicle_category), class: 'btn btn-outline-dark btn-sm') do %>
+                      <%= icon('fas', 'pencil-alt', 'editar') %>
+                    <% end %>
+                  </td>
+                  <td><%= vehicle_category.vehicle_type %></td>
+                  <td><%= number_to_currency(vehicle_category.hourly_rate) %></td>
+                  <td><%= vehicle_category.licence_type.category %></td>
+                </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% end %>

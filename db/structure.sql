@@ -1,6 +1,5 @@
 SET statement_timeout = 0;
 SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -39,39 +38,6 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
--- Name: class_teachers; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.class_teachers (
-    id bigint NOT NULL,
-    practical_class_id integer NOT NULL,
-    teacher_category_id integer NOT NULL,
-    vehicle_plate_id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: class_teachers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.class_teachers_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: class_teachers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.class_teachers_id_seq OWNED BY public.class_teachers.id;
-
-
---
 -- Name: control_student_tests; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -81,7 +47,7 @@ CREATE TABLE public.control_student_tests (
     test_qualification double precision NOT NULL,
     approve boolean NOT NULL,
     control_test_id integer NOT NULL,
-    student_id integer NOT NULL,
+    enrollment_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -177,8 +143,7 @@ ALTER SEQUENCE public.cost_types_id_seq OWNED BY public.cost_types.id;
 CREATE TABLE public.costs (
     id bigint NOT NULL,
     total_value numeric NOT NULL,
-    student_id integer NOT NULL,
-    practical_cost_id integer NOT NULL,
+    enrollment_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -204,22 +169,27 @@ ALTER SEQUENCE public.costs_id_seq OWNED BY public.costs.id;
 
 
 --
--- Name: customers; Type: TABLE; Schema: public; Owner: -
+-- Name: enrollments; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.customers (
+CREATE TABLE public.enrollments (
     id bigint NOT NULL,
-    person_id character varying NOT NULL,
+    enroll_date timestamp without time zone NOT NULL,
+    theoretical_hours integer DEFAULT 0 NOT NULL,
+    practical_hours integer NOT NULL,
+    student_id integer NOT NULL,
+    licence_type_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    teacher_id integer
 );
 
 
 --
--- Name: customers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: enrollments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.customers_id_seq
+CREATE SEQUENCE public.enrollments_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -228,10 +198,10 @@ CREATE SEQUENCE public.customers_id_seq
 
 
 --
--- Name: customers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: enrollments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.customers_id_seq OWNED BY public.customers.id;
+ALTER SEQUENCE public.enrollments_id_seq OWNED BY public.enrollments.id;
 
 
 --
@@ -272,7 +242,11 @@ ALTER SEQUENCE public.general_costs_id_seq OWNED BY public.general_costs.id;
 
 CREATE TABLE public.licence_types (
     id bigint NOT NULL,
-    description character varying NOT NULL,
+    allowed_vehicles character varying NOT NULL,
+    category character varying NOT NULL,
+    service_type character varying NOT NULL,
+    licence_cost numeric NOT NULL,
+    practical_hours integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -298,38 +272,6 @@ ALTER SEQUENCE public.licence_types_id_seq OWNED BY public.licence_types.id;
 
 
 --
--- Name: licences; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.licences (
-    id bigint NOT NULL,
-    description character varying DEFAULT ''::character varying NOT NULL,
-    licence_type_id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: licences_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.licences_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: licences_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.licences_id_seq OWNED BY public.licences.id;
-
-
---
 -- Name: people; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -340,6 +282,7 @@ CREATE TABLE public.people (
     address character varying NOT NULL,
     phone_number character varying DEFAULT ''::character varying NOT NULL,
     id_number character varying NOT NULL,
+    role character varying[] NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -372,7 +315,6 @@ CREATE TABLE public.practical_classes (
     id bigint NOT NULL,
     description character varying NOT NULL,
     class_length integer NOT NULL,
-    licence_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -398,24 +340,23 @@ ALTER SEQUENCE public.practical_classes_id_seq OWNED BY public.practical_classes
 
 
 --
--- Name: practical_costs; Type: TABLE; Schema: public; Owner: -
+-- Name: practical_licence_classes; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.practical_costs (
+CREATE TABLE public.practical_licence_classes (
     id bigint NOT NULL,
-    description character varying NOT NULL,
-    value numeric DEFAULT 0 NOT NULL,
-    licence_id integer NOT NULL,
+    licence_type_id integer NOT NULL,
+    practical_class_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
 
 
 --
--- Name: practical_costs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: practical_licence_classes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.practical_costs_id_seq
+CREATE SEQUENCE public.practical_licence_classes_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -424,10 +365,10 @@ CREATE SEQUENCE public.practical_costs_id_seq
 
 
 --
--- Name: practical_costs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: practical_licence_classes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.practical_costs_id_seq OWNED BY public.practical_costs.id;
+ALTER SEQUENCE public.practical_licence_classes_id_seq OWNED BY public.practical_licence_classes.id;
 
 
 --
@@ -438,8 +379,9 @@ CREATE TABLE public.practical_student_classes (
     id bigint NOT NULL,
     student_performance text NOT NULL,
     class_date timestamp without time zone NOT NULL,
-    student_id integer NOT NULL,
+    enrollment_id integer NOT NULL,
     practical_class_id integer NOT NULL,
+    vehicle_plate_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -465,74 +407,6 @@ ALTER SEQUENCE public.practical_student_classes_id_seq OWNED BY public.practical
 
 
 --
--- Name: practical_student_tests; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.practical_student_tests (
-    id bigint NOT NULL,
-    test_date timestamp without time zone NOT NULL,
-    test_qualification double precision NOT NULL,
-    approve boolean NOT NULL,
-    practical_test_id integer NOT NULL,
-    student_id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: practical_student_tests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.practical_student_tests_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: practical_student_tests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.practical_student_tests_id_seq OWNED BY public.practical_student_tests.id;
-
-
---
--- Name: practical_tests; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.practical_tests (
-    id bigint NOT NULL,
-    description character varying NOT NULL,
-    test_length integer NOT NULL,
-    test_value numeric NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: practical_tests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.practical_tests_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: practical_tests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.practical_tests_id_seq OWNED BY public.practical_tests.id;
-
-
---
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -550,7 +424,7 @@ CREATE TABLE public.student_advances (
     advance_value numeric NOT NULL,
     description character varying DEFAULT ''::character varying NOT NULL,
     advance_date timestamp without time zone NOT NULL,
-    student_id integer NOT NULL,
+    enrollment_id integer NOT NULL,
     cost_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -583,7 +457,7 @@ ALTER SEQUENCE public.student_advances_id_seq OWNED BY public.student_advances.i
 CREATE TABLE public.student_licences (
     id bigint NOT NULL,
     student_id integer NOT NULL,
-    licence_id integer NOT NULL,
+    licence_type_id integer NOT NULL,
     expedition_date timestamp without time zone NOT NULL,
     expiration_date timestamp without time zone NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -611,15 +485,47 @@ ALTER SEQUENCE public.student_licences_id_seq OWNED BY public.student_licences.i
 
 
 --
+-- Name: student_tests; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.student_tests (
+    id bigint NOT NULL,
+    test_date timestamp without time zone NOT NULL,
+    test_qualification double precision NOT NULL,
+    approve boolean NOT NULL,
+    test_id integer NOT NULL,
+    enrollment_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: student_tests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.student_tests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: student_tests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.student_tests_id_seq OWNED BY public.student_tests.id;
+
+
+--
 -- Name: students; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.students (
     id bigint NOT NULL,
-    enroll_date timestamp without time zone NOT NULL,
-    customer_id integer NOT NULL,
-    licence_id integer NOT NULL,
-    class_teacher_id integer NOT NULL,
+    person_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -708,10 +614,43 @@ ALTER SEQUENCE public.teachers_id_seq OWNED BY public.teachers.id;
 
 
 --
--- Name: teoric_classes; Type: TABLE; Schema: public; Owner: -
+-- Name: tests; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.teoric_classes (
+CREATE TABLE public.tests (
+    id bigint NOT NULL,
+    test_type character varying NOT NULL,
+    test_length integer NOT NULL,
+    test_value numeric NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: tests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.tests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.tests_id_seq OWNED BY public.tests.id;
+
+
+--
+-- Name: theoretical_classes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.theoretical_classes (
     id bigint NOT NULL,
     description character varying NOT NULL,
     class_length integer NOT NULL,
@@ -721,10 +660,10 @@ CREATE TABLE public.teoric_classes (
 
 
 --
--- Name: teoric_classes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: theoretical_classes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.teoric_classes_id_seq
+CREATE SEQUENCE public.theoretical_classes_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -733,65 +672,32 @@ CREATE SEQUENCE public.teoric_classes_id_seq
 
 
 --
--- Name: teoric_classes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: theoretical_classes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.teoric_classes_id_seq OWNED BY public.teoric_classes.id;
-
-
---
--- Name: theoretical_tests; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.theoretical_tests (
-    id bigint NOT NULL,
-    description character varying NOT NULL,
-    test_length integer NOT NULL,
-    test_value numeric NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
+ALTER SEQUENCE public.theoretical_classes_id_seq OWNED BY public.theoretical_classes.id;
 
 
 --
--- Name: theoretical_tests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: theoretical_student_classes; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.theoretical_tests_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: theoretical_tests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.theoretical_tests_id_seq OWNED BY public.theoretical_tests.id;
-
-
---
--- Name: theorical_student_classes; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.theorical_student_classes (
+CREATE TABLE public.theoretical_student_classes (
     id bigint NOT NULL,
     class_date timestamp without time zone NOT NULL,
-    student_id integer NOT NULL,
+    enrollment_id integer NOT NULL,
     teacher_id integer NOT NULL,
-    teoric_class_id integer NOT NULL,
+    theoretical_class_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
 
 
 --
--- Name: theorical_student_classes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: theoretical_student_classes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.theorical_student_classes_id_seq
+CREATE SEQUENCE public.theoretical_student_classes_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -800,45 +706,10 @@ CREATE SEQUENCE public.theorical_student_classes_id_seq
 
 
 --
--- Name: theorical_student_classes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: theoretical_student_classes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.theorical_student_classes_id_seq OWNED BY public.theorical_student_classes.id;
-
-
---
--- Name: theorical_student_tests; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.theorical_student_tests (
-    id bigint NOT NULL,
-    test_date timestamp without time zone NOT NULL,
-    test_qualification double precision NOT NULL,
-    approve boolean NOT NULL,
-    theorical_test_id integer NOT NULL,
-    student_id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: theorical_student_tests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.theorical_student_tests_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: theorical_student_tests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.theorical_student_tests_id_seq OWNED BY public.theorical_student_tests.id;
+ALTER SEQUENCE public.theoretical_student_classes_id_seq OWNED BY public.theoretical_student_classes.id;
 
 
 --
@@ -895,9 +766,9 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 CREATE TABLE public.vehicle_categories (
     id bigint NOT NULL,
-    description character varying NOT NULL,
+    vehicle_type character varying NOT NULL,
     hourly_rate double precision NOT NULL,
-    licence_id integer NOT NULL,
+    licence_type_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -932,7 +803,7 @@ CREATE TABLE public.vehicle_consumes (
     spent_gas integer NOT NULL,
     damage_description character varying DEFAULT ''::character varying NOT NULL,
     vehicle_plate_id integer NOT NULL,
-    practical_student_class_id integer NOT NULL,
+    practical_class_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -994,203 +865,175 @@ ALTER SEQUENCE public.vehicles_id_seq OWNED BY public.vehicles.id;
 
 
 --
--- Name: class_teachers id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.class_teachers ALTER COLUMN id SET DEFAULT nextval('public.class_teachers_id_seq'::regclass);
-
-
---
--- Name: control_student_tests id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.control_student_tests ALTER COLUMN id SET DEFAULT nextval('public.control_student_tests_id_seq'::regclass);
 
 
 --
--- Name: control_tests id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.control_tests ALTER COLUMN id SET DEFAULT nextval('public.control_tests_id_seq'::regclass);
 
 
 --
--- Name: cost_types id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cost_types ALTER COLUMN id SET DEFAULT nextval('public.cost_types_id_seq'::regclass);
 
 
 --
--- Name: costs id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.costs ALTER COLUMN id SET DEFAULT nextval('public.costs_id_seq'::regclass);
 
 
 --
--- Name: customers id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.customers ALTER COLUMN id SET DEFAULT nextval('public.customers_id_seq'::regclass);
+ALTER TABLE ONLY public.enrollments ALTER COLUMN id SET DEFAULT nextval('public.enrollments_id_seq'::regclass);
 
 
 --
--- Name: general_costs id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.general_costs ALTER COLUMN id SET DEFAULT nextval('public.general_costs_id_seq'::regclass);
 
 
 --
--- Name: licence_types id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.licence_types ALTER COLUMN id SET DEFAULT nextval('public.licence_types_id_seq'::regclass);
 
 
 --
--- Name: licences id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.licences ALTER COLUMN id SET DEFAULT nextval('public.licences_id_seq'::regclass);
-
-
---
--- Name: people id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.people ALTER COLUMN id SET DEFAULT nextval('public.people_id_seq'::regclass);
 
 
 --
--- Name: practical_classes id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.practical_classes ALTER COLUMN id SET DEFAULT nextval('public.practical_classes_id_seq'::regclass);
 
 
 --
--- Name: practical_costs id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.practical_costs ALTER COLUMN id SET DEFAULT nextval('public.practical_costs_id_seq'::regclass);
+ALTER TABLE ONLY public.practical_licence_classes ALTER COLUMN id SET DEFAULT nextval('public.practical_licence_classes_id_seq'::regclass);
 
 
 --
--- Name: practical_student_classes id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.practical_student_classes ALTER COLUMN id SET DEFAULT nextval('public.practical_student_classes_id_seq'::regclass);
 
 
 --
--- Name: practical_student_tests id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.practical_student_tests ALTER COLUMN id SET DEFAULT nextval('public.practical_student_tests_id_seq'::regclass);
-
-
---
--- Name: practical_tests id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.practical_tests ALTER COLUMN id SET DEFAULT nextval('public.practical_tests_id_seq'::regclass);
-
-
---
--- Name: student_advances id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.student_advances ALTER COLUMN id SET DEFAULT nextval('public.student_advances_id_seq'::regclass);
 
 
 --
--- Name: student_licences id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.student_licences ALTER COLUMN id SET DEFAULT nextval('public.student_licences_id_seq'::regclass);
 
 
 --
--- Name: students id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.student_tests ALTER COLUMN id SET DEFAULT nextval('public.student_tests_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.students ALTER COLUMN id SET DEFAULT nextval('public.students_id_seq'::regclass);
 
 
 --
--- Name: teacher_categories id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.teacher_categories ALTER COLUMN id SET DEFAULT nextval('public.teacher_categories_id_seq'::regclass);
 
 
 --
--- Name: teachers id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.teachers ALTER COLUMN id SET DEFAULT nextval('public.teachers_id_seq'::regclass);
 
 
 --
--- Name: teoric_classes id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.teoric_classes ALTER COLUMN id SET DEFAULT nextval('public.teoric_classes_id_seq'::regclass);
-
-
---
--- Name: theoretical_tests id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.theoretical_tests ALTER COLUMN id SET DEFAULT nextval('public.theoretical_tests_id_seq'::regclass);
+ALTER TABLE ONLY public.tests ALTER COLUMN id SET DEFAULT nextval('public.tests_id_seq'::regclass);
 
 
 --
--- Name: theorical_student_classes id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.theorical_student_classes ALTER COLUMN id SET DEFAULT nextval('public.theorical_student_classes_id_seq'::regclass);
-
-
---
--- Name: theorical_student_tests id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.theorical_student_tests ALTER COLUMN id SET DEFAULT nextval('public.theorical_student_tests_id_seq'::regclass);
+ALTER TABLE ONLY public.theoretical_classes ALTER COLUMN id SET DEFAULT nextval('public.theoretical_classes_id_seq'::regclass);
 
 
 --
--- Name: users id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.theoretical_student_classes ALTER COLUMN id SET DEFAULT nextval('public.theoretical_student_classes_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
--- Name: vehicle_categories id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.vehicle_categories ALTER COLUMN id SET DEFAULT nextval('public.vehicle_categories_id_seq'::regclass);
 
 
 --
--- Name: vehicle_consumes id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.vehicle_consumes ALTER COLUMN id SET DEFAULT nextval('public.vehicle_consumes_id_seq'::regclass);
 
 
 --
--- Name: vehicles id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.vehicles ALTER COLUMN id SET DEFAULT nextval('public.vehicles_id_seq'::regclass);
 
 
 --
--- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.ar_internal_metadata
@@ -1198,15 +1041,7 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 
 --
--- Name: class_teachers class_teachers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.class_teachers
-    ADD CONSTRAINT class_teachers_pkey PRIMARY KEY (id);
-
-
---
--- Name: control_student_tests control_student_tests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: control_student_tests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.control_student_tests
@@ -1214,7 +1049,7 @@ ALTER TABLE ONLY public.control_student_tests
 
 
 --
--- Name: control_tests control_tests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: control_tests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.control_tests
@@ -1222,7 +1057,7 @@ ALTER TABLE ONLY public.control_tests
 
 
 --
--- Name: cost_types cost_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: cost_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cost_types
@@ -1230,7 +1065,7 @@ ALTER TABLE ONLY public.cost_types
 
 
 --
--- Name: costs costs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: costs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.costs
@@ -1238,15 +1073,15 @@ ALTER TABLE ONLY public.costs
 
 
 --
--- Name: customers customers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: enrollments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.customers
-    ADD CONSTRAINT customers_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.enrollments
+    ADD CONSTRAINT enrollments_pkey PRIMARY KEY (id);
 
 
 --
--- Name: general_costs general_costs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: general_costs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.general_costs
@@ -1254,7 +1089,7 @@ ALTER TABLE ONLY public.general_costs
 
 
 --
--- Name: licence_types licence_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: licence_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.licence_types
@@ -1262,15 +1097,7 @@ ALTER TABLE ONLY public.licence_types
 
 
 --
--- Name: licences licences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.licences
-    ADD CONSTRAINT licences_pkey PRIMARY KEY (id);
-
-
---
--- Name: people people_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: people_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.people
@@ -1278,7 +1105,7 @@ ALTER TABLE ONLY public.people
 
 
 --
--- Name: practical_classes practical_classes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: practical_classes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.practical_classes
@@ -1286,15 +1113,15 @@ ALTER TABLE ONLY public.practical_classes
 
 
 --
--- Name: practical_costs practical_costs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: practical_licence_classes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.practical_costs
-    ADD CONSTRAINT practical_costs_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.practical_licence_classes
+    ADD CONSTRAINT practical_licence_classes_pkey PRIMARY KEY (id);
 
 
 --
--- Name: practical_student_classes practical_student_classes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: practical_student_classes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.practical_student_classes
@@ -1302,23 +1129,7 @@ ALTER TABLE ONLY public.practical_student_classes
 
 
 --
--- Name: practical_student_tests practical_student_tests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.practical_student_tests
-    ADD CONSTRAINT practical_student_tests_pkey PRIMARY KEY (id);
-
-
---
--- Name: practical_tests practical_tests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.practical_tests
-    ADD CONSTRAINT practical_tests_pkey PRIMARY KEY (id);
-
-
---
--- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.schema_migrations
@@ -1326,7 +1137,7 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
--- Name: student_advances student_advances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: student_advances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.student_advances
@@ -1334,7 +1145,7 @@ ALTER TABLE ONLY public.student_advances
 
 
 --
--- Name: student_licences student_licences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: student_licences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.student_licences
@@ -1342,7 +1153,15 @@ ALTER TABLE ONLY public.student_licences
 
 
 --
--- Name: students students_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: student_tests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.student_tests
+    ADD CONSTRAINT student_tests_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: students_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.students
@@ -1350,7 +1169,7 @@ ALTER TABLE ONLY public.students
 
 
 --
--- Name: teacher_categories teacher_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: teacher_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.teacher_categories
@@ -1358,7 +1177,7 @@ ALTER TABLE ONLY public.teacher_categories
 
 
 --
--- Name: teachers teachers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: teachers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.teachers
@@ -1366,39 +1185,31 @@ ALTER TABLE ONLY public.teachers
 
 
 --
--- Name: teoric_classes teoric_classes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: tests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.teoric_classes
-    ADD CONSTRAINT teoric_classes_pkey PRIMARY KEY (id);
-
-
---
--- Name: theoretical_tests theoretical_tests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.theoretical_tests
-    ADD CONSTRAINT theoretical_tests_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.tests
+    ADD CONSTRAINT tests_pkey PRIMARY KEY (id);
 
 
 --
--- Name: theorical_student_classes theorical_student_classes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: theoretical_classes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.theorical_student_classes
-    ADD CONSTRAINT theorical_student_classes_pkey PRIMARY KEY (id);
-
-
---
--- Name: theorical_student_tests theorical_student_tests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.theorical_student_tests
-    ADD CONSTRAINT theorical_student_tests_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.theoretical_classes
+    ADD CONSTRAINT theoretical_classes_pkey PRIMARY KEY (id);
 
 
 --
--- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: theoretical_student_classes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.theoretical_student_classes
+    ADD CONSTRAINT theoretical_student_classes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users
@@ -1406,7 +1217,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: vehicle_categories vehicle_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: vehicle_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.vehicle_categories
@@ -1414,7 +1225,7 @@ ALTER TABLE ONLY public.vehicle_categories
 
 
 --
--- Name: vehicle_consumes vehicle_consumes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: vehicle_consumes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.vehicle_consumes
@@ -1422,32 +1233,11 @@ ALTER TABLE ONLY public.vehicle_consumes
 
 
 --
--- Name: vehicles vehicles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: vehicles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.vehicles
     ADD CONSTRAINT vehicles_pkey PRIMARY KEY (id);
-
-
---
--- Name: index_class_teachers_on_practical_class_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_class_teachers_on_practical_class_id ON public.class_teachers USING btree (practical_class_id);
-
-
---
--- Name: index_class_teachers_on_teacher_category_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_class_teachers_on_teacher_category_id ON public.class_teachers USING btree (teacher_category_id);
-
-
---
--- Name: index_class_teachers_on_vehicle_plate_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_class_teachers_on_vehicle_plate_id ON public.class_teachers USING btree (vehicle_plate_id);
 
 
 --
@@ -1458,10 +1248,10 @@ CREATE INDEX index_control_student_tests_on_control_test_id ON public.control_st
 
 
 --
--- Name: index_control_student_tests_on_student_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_control_student_tests_on_enrollment_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_control_student_tests_on_student_id ON public.control_student_tests USING btree (student_id);
+CREATE INDEX index_control_student_tests_on_enrollment_id ON public.control_student_tests USING btree (enrollment_id);
 
 
 --
@@ -1479,31 +1269,31 @@ CREATE INDEX index_cost_types_on_general_cost_id ON public.cost_types USING btre
 
 
 --
--- Name: index_costs_on_practical_cost_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_costs_on_enrollment_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_costs_on_practical_cost_id ON public.costs USING btree (practical_cost_id);
-
-
---
--- Name: index_costs_on_student_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_costs_on_student_id ON public.costs USING btree (student_id);
+CREATE INDEX index_costs_on_enrollment_id ON public.costs USING btree (enrollment_id);
 
 
 --
--- Name: index_customers_on_person_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_enrollments_on_licence_type_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_customers_on_person_id ON public.customers USING btree (person_id);
+CREATE INDEX index_enrollments_on_licence_type_id ON public.enrollments USING btree (licence_type_id);
 
 
 --
--- Name: index_licences_on_licence_type_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_enrollments_on_student_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_licences_on_licence_type_id ON public.licences USING btree (licence_type_id);
+CREATE INDEX index_enrollments_on_student_id ON public.enrollments USING btree (student_id);
+
+
+--
+-- Name: index_enrollments_on_teacher_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_enrollments_on_teacher_id ON public.enrollments USING btree (teacher_id);
 
 
 --
@@ -1514,17 +1304,24 @@ CREATE UNIQUE INDEX index_people_on_id_number ON public.people USING btree (id_n
 
 
 --
--- Name: index_practical_classes_on_licence_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_practical_licence_classes_on_licence_type_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_practical_classes_on_licence_id ON public.practical_classes USING btree (licence_id);
+CREATE INDEX index_practical_licence_classes_on_licence_type_id ON public.practical_licence_classes USING btree (licence_type_id);
 
 
 --
--- Name: index_practical_costs_on_licence_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_practical_licence_classes_on_practical_class_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_practical_costs_on_licence_id ON public.practical_costs USING btree (licence_id);
+CREATE INDEX index_practical_licence_classes_on_practical_class_id ON public.practical_licence_classes USING btree (practical_class_id);
+
+
+--
+-- Name: index_practical_student_classes_on_enrollment_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_practical_student_classes_on_enrollment_id ON public.practical_student_classes USING btree (enrollment_id);
 
 
 --
@@ -1535,24 +1332,10 @@ CREATE INDEX index_practical_student_classes_on_practical_class_id ON public.pra
 
 
 --
--- Name: index_practical_student_classes_on_student_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_practical_student_classes_on_vehicle_plate_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_practical_student_classes_on_student_id ON public.practical_student_classes USING btree (student_id);
-
-
---
--- Name: index_practical_student_tests_on_practical_test_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_practical_student_tests_on_practical_test_id ON public.practical_student_tests USING btree (practical_test_id);
-
-
---
--- Name: index_practical_student_tests_on_student_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_practical_student_tests_on_student_id ON public.practical_student_tests USING btree (student_id);
+CREATE INDEX index_practical_student_classes_on_vehicle_plate_id ON public.practical_student_classes USING btree (vehicle_plate_id);
 
 
 --
@@ -1563,17 +1346,17 @@ CREATE INDEX index_student_advances_on_cost_id ON public.student_advances USING 
 
 
 --
--- Name: index_student_advances_on_student_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_student_advances_on_enrollment_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_student_advances_on_student_id ON public.student_advances USING btree (student_id);
+CREATE INDEX index_student_advances_on_enrollment_id ON public.student_advances USING btree (enrollment_id);
 
 
 --
--- Name: index_student_licences_on_licence_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_student_licences_on_licence_type_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_student_licences_on_licence_id ON public.student_licences USING btree (licence_id);
+CREATE INDEX index_student_licences_on_licence_type_id ON public.student_licences USING btree (licence_type_id);
 
 
 --
@@ -1584,24 +1367,24 @@ CREATE INDEX index_student_licences_on_student_id ON public.student_licences USI
 
 
 --
--- Name: index_students_on_class_teacher_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_student_tests_on_enrollment_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_students_on_class_teacher_id ON public.students USING btree (class_teacher_id);
-
-
---
--- Name: index_students_on_customer_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_students_on_customer_id ON public.students USING btree (customer_id);
+CREATE INDEX index_student_tests_on_enrollment_id ON public.student_tests USING btree (enrollment_id);
 
 
 --
--- Name: index_students_on_licence_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_student_tests_on_test_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_students_on_licence_id ON public.students USING btree (licence_id);
+CREATE INDEX index_student_tests_on_test_id ON public.student_tests USING btree (test_id);
+
+
+--
+-- Name: index_students_on_person_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_students_on_person_id ON public.students USING btree (person_id);
 
 
 --
@@ -1626,38 +1409,24 @@ CREATE INDEX index_teachers_on_person_id ON public.teachers USING btree (person_
 
 
 --
--- Name: index_theorical_student_classes_on_student_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_theoretical_student_classes_on_enrollment_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_theorical_student_classes_on_student_id ON public.theorical_student_classes USING btree (student_id);
-
-
---
--- Name: index_theorical_student_classes_on_teacher_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_theorical_student_classes_on_teacher_id ON public.theorical_student_classes USING btree (teacher_id);
+CREATE INDEX index_theoretical_student_classes_on_enrollment_id ON public.theoretical_student_classes USING btree (enrollment_id);
 
 
 --
--- Name: index_theorical_student_classes_on_teoric_class_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_theoretical_student_classes_on_teacher_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_theorical_student_classes_on_teoric_class_id ON public.theorical_student_classes USING btree (teoric_class_id);
-
-
---
--- Name: index_theorical_student_tests_on_student_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_theorical_student_tests_on_student_id ON public.theorical_student_tests USING btree (student_id);
+CREATE INDEX index_theoretical_student_classes_on_teacher_id ON public.theoretical_student_classes USING btree (teacher_id);
 
 
 --
--- Name: index_theorical_student_tests_on_theorical_test_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_theoretical_student_classes_on_theoretical_class_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_theorical_student_tests_on_theorical_test_id ON public.theorical_student_tests USING btree (theorical_test_id);
+CREATE INDEX index_theoretical_student_classes_on_theoretical_class_id ON public.theoretical_student_classes USING btree (theoretical_class_id);
 
 
 --
@@ -1689,17 +1458,17 @@ CREATE UNIQUE INDEX index_users_on_unlock_token ON public.users USING btree (unl
 
 
 --
--- Name: index_vehicle_categories_on_licence_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_vehicle_categories_on_licence_type_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_vehicle_categories_on_licence_id ON public.vehicle_categories USING btree (licence_id);
+CREATE INDEX index_vehicle_categories_on_licence_type_id ON public.vehicle_categories USING btree (licence_type_id);
 
 
 --
--- Name: index_vehicle_consumes_on_practical_student_class_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_vehicle_consumes_on_practical_class_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_vehicle_consumes_on_practical_student_class_id ON public.vehicle_consumes USING btree (practical_student_class_id);
+CREATE INDEX index_vehicle_consumes_on_practical_class_id ON public.vehicle_consumes USING btree (practical_class_id);
 
 
 --
@@ -1724,32 +1493,30 @@ SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
 ('20181108212504'),
-('20181123214949'),
 ('20181123215348'),
 ('20181123221210'),
 ('20181123223837'),
-('20181123224435'),
-('20181126225539'),
 ('20181126230338'),
 ('20181126232754'),
-('20181128140525'),
-('20181128141128'),
-('20181128141541'),
-('20181128142413'),
 ('20181128144354'),
 ('20181128144711'),
-('20181128145352'),
 ('20181128150344'),
 ('20181128151401'),
 ('20181128151957'),
 ('20181128153124'),
 ('20181128162421'),
 ('20181128163412'),
-('20181128164057'),
 ('20181128164548'),
-('20181128164805'),
 ('20181128165444'),
 ('20181128165715'),
-('20181128170153');
+('20181128170153'),
+('20181128214911'),
+('20181128215147'),
+('20181130202657'),
+('20181130234448'),
+('20181130235903'),
+('20181201154910'),
+('20181201155353'),
+('20181201161421');
 
 

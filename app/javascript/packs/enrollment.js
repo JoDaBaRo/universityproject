@@ -10,9 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
   var app = new Vue({
     el: '#enrollment_form',
     data: {
-      enrollDateValue: document.getElementById('enrollment_form').getAttribute('data-name'),
-      licenceTypeValue: document.getElementById('enrollment_form').getAttribute('data-last-name'),
-      categoryTeacherValue: document.getElementById('enrollment_form').getAttribute('data-id-number'),
+      enrollDateValue: document.getElementById('enrollment_form').getAttribute('data-enrollment-date'),
+      licenceTypeValue: document.getElementById('enrollment_form').getAttribute('data-licence-type-id'),
+      categoryTeacherValue: document.getElementById('enrollment_form').getAttribute('data-category_teacher_id'),
       teachers: null,
     },
     validations: {

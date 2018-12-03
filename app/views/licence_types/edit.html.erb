@@ -1,0 +1,9 @@
+<%= render 'shared/card', has_return: true, breadcrumbs: {crumbs: [{name: "Tipo licencia", path: licence_types_path}], active_label: "Editar"} do %>
+<div class="row">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <h5>Editar tipo de licencia: </h5>
+    <hr>
+    <%= render 'form', licence_type: @licence_type %>
+  </div>
+</div>
+<% end %>

@@ -17,6 +17,7 @@
             <tr>
               <th width="3%"></th>
               <th width="3%"></th>
+              <th width="4%"></th>
               <th width='25%'>Nombre</th>
               <th width='25%'>Apellido</th>
               <th width='25%'># identificacion</th>
@@ -25,9 +26,14 @@
           <tbody>
             <% @students.each do |student| %>
               <tr>
-                <td>
-                  <%= link_to(student_enrollments_path(student), class: 'btn btn-outline-dark btn-sm') do %>
+                <td >
+                  <%= link_to(student_enrollments_path(student), class: 'btn btn-outline-dark btn-sm' ) do %>
                     <%= icon('fas', 'book', 'Matriculas') %>
+                  <% end %>
+                </td>
+                <td>
+                  <%= link_to(student_student_licences_path(student), class: 'btn btn-outline-dark btn-sm') do %>
+                    <%= icon('fas', 'address-card', 'licencias') %>
                   <% end %>
                 </td>
                 <td>

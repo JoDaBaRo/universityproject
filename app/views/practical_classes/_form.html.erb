@@ -27,6 +27,32 @@
   </div>
 </div>
 
+<!--<div class="row">
+  <div class="col-lg-5">
+    <div class="form-group">
+      <#%= f.label :tipos_de_licencias_permitidas %><br />
+      <#%= f.text_field , class: 'form-control'%>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="form-group">
+      <#%= f.label :categoria %>*<br />
+      <#%= f.collection_select(
+          :licence_type_id,
+          LicenceType.all,
+          :id,
+          :category,
+          {include_blank: false},
+          {
+            class: 'form-control selectpicker',
+            multiple: true,
+            "v-model" => "licenceTypeValue"  
+          }
+      )%>
+    </div>
+  </div>  
+</div>-->
+
 <div class="row">
   <div class="col-sm-10 col-md-10 col-lg-10">
     <div v-show="$v.$invalid" class="alert alert-warning" role="alert">

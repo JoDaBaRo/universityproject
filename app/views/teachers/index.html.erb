@@ -1,3 +1,4 @@
+<%= render 'shared/card',has_return: true, breadcrumbs: {crumbs: [], active_label: "Profesores"} do %>
 <% if @teachers.empty? %>
   <br>
   <div class="alert alert-info">
@@ -9,12 +10,13 @@
     <div class="col-lg-12">
       <br>
       <h5>Listado de profesores registrados</h5>
-      <hr>
+      <br>
       <div class="table-responsive">
         <table class="table table-condensed">
           <thead>
             <tr>
-              <th width='3%'></th>
+              <th width="3%"></th>
+              <th width="3%"></th>
               <th width='25%'>Nombre</th>
               <th width='25%'>Apellido</th>
               <th width='25%'># identificacion</th>
@@ -24,10 +26,20 @@
           <tbody>
             <% @teachers.each do |teacher| %>
               <tr>
+                 <td>
+                  <%= link_to(teacher_teacher_categories_path(teacher), class: 'btn btn-outline-dark btn-sm') do %>
+                    <%= icon('fas', 'book', 'Categorias') %>
+                  <% end %>
+                </td>
+                <td>
+                  <%= link_to(edit_person_path(teacher.person), class: 'btn btn-outline-dark btn-sm') do %>
+                    <%= icon('fas', 'book', 'Editar') %>
+                  <% end %>
+                </td>
                 <td><%= teacher.person.name %></td>
                 <td><%= teacher.person.last_name %></td>
                 <td><%= teacher.person.id_number %></td>
-                <td><%= teacher.phone_number %></td>
+                <td><%= teacher.person.phone_number %></td>
               </tr>
             <% end %>
           </tbody>
@@ -35,4 +47,5 @@
       </div>
     </div>
   </div>
+<% end %>
 <% end %>

@@ -1,0 +1,9 @@
+<%= render 'shared/card', has_return: true, breadcrumbs: {crumbs: [{name: "Clases practicas", path: practical_classes_path}, {name: "Categorias", path: practical_class_practical_licence_classes_path(@practical_class)}], active_label: "Editar"} do %>
+<div class="row">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <h5>Editar categoria</h5>
+    <hr>
+    <%= render 'form', practical_licence_class: @practical_licence_class %>
+  </div>
+</div>
+<% end %>

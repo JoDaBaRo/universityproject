@@ -2,9 +2,9 @@
   <div class="col-sm-12 col-md-12 col-lg-12">
     <%= form_for([@student, enrollment], html: {id: 'enrollment_form', "v-cloak
 " => "true",
-        'data-enrollment-date'  => enrollment.enroll_date,
+        'data-enrollment-date'  => enrollment.enroll_date ? enrollment.enroll_date.strftime("%Y-%m-%d") : '',
         'data-licence-type-id'  => enrollment.licence_type_id,
-        'data-category_teacher_id' => enrollment.id
+        'data-category_teacher_id' => enrollment.teacher ? enrollment.teacher.person.name : ''
       }
     ) do |f| %>
 <div class="row">
@@ -85,13 +85,13 @@
           </div>
           <div class="modal-body">
             <p>
-                Esta seguro de eliminar la persona con el número <b><%= person.name %></b>? <br> Tenga en cuenta que esta acción es permanente.
+                Esta seguro de eliminar la matricula de <b><%= enrollment.student.person.name %></b>? <br> Tenga en cuenta que esta acción es permanente.
             </p>
           </div>
 
           <div class="modal-footer">
             <button class="btn btn-outline-secondary" data-dismiss="modal" type="button">Cerrar</button>
-              <%= link_to "Eliminar", @person, method: :delete, class: 'btn btn-danger' %>
+              <%= link_to "Eliminar", student_enrollment_path(@student, @enrollment), method: :delete, class: 'btn btn-danger' %>
           </div>
         </div>
       </div>

@@ -1,0 +1,116 @@
+<div class="row">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <%= form_for(@vehicle, html: {id: 'vehicles_form',
+        'data-name'  => @vehicle.name,
+        'data-brand'  => @vehicle.brand,
+        'data-plate'  => @vehicle.plate,
+        'data-displacement'  => @vehicle.displacement,
+        'data-model-year'  => @vehicle.model_year,
+        'data-vehicle-category-id'  => @vehicle.vehicle_category_id,
+      }
+    ) do |f| %>
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="form-group">
+      <%= f.label :nombre %><br />
+      <%= f.text_field :name, class: 'form-control', "v-model" => "nameValue" %>
+    </div>
+  </div>  
+  <div class="col-lg-4">
+    <div class="form-group">
+      <%= f.label :marca %><br />
+      <%= f.text_field :brand, class: 'form-control', "v-model" => "brandValue" %>
+    </div>
+  </div>  
+  <div class="col-lg-4">
+    <div class="form-group">
+      <%= f.label :año_del_modelo %><br />
+      <%= f.number_field :model_year, class: 'form-control', "v-model" => "modelYearValue" %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="form-group">
+      <%= f.label :numero_de_placa %>*<br />
+      <%= f.text_field :plate, class: 'form-control', "v-model" => "plateValue", "@input" => "fieldClass('vehicle_plate', $v.plateValue.$invalid), $v.plateValue.$touch()" %>
+      <div v-if="$v.plateValue.$dirty">
+        <p class="required-field" v-if="!$v.plateValue.required">*El campo del numero de placa es requerido!</p>
+      </div>
+    </div>
+  </div>  
+  <div class="col-lg-4">
+    <div class="form-group">
+      <%= f.label :cilindraje %>*<br />
+      <%= f.text_field :displacement, class: 'form-control', "v-model" => "displacementValue", "@input" => "fieldClass('vehicle_displacement', $v.displacementValue.$invalid), $v.displacementValue.$touch()" %>
+      <div v-if="$v.displacementValue.$dirty">
+        <p class="required-field" v-if="!$v.displacementValue.required">*El campo del cilindraje del vehiculo es requerido!</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="form-group">
+      <%= f.label :tipo_de_licencia %>*<br />
+      <%= f.collection_select(
+          :vehicle_category_id,
+          #this will be a helper method return
+          VehicleCategory.all,
+          :id,
+          :vehicle_type,
+          {include_blank: true},
+          {
+            class: 'form-control selectpicker',
+            "v-model" => "vehicleCategotyValue",
+          }
+      )%>
+    </div>
+  </div> 
+</div>
+
+
+<div class="row">
+  <div class="col-sm-10 col-md-10 col-lg-10">
+    <div v-show="$v.$invalid" class="alert alert-warning" role="alert">
+      <i class="fas fa-exclamation-circle"></i>
+        Los campos con el * son requeridos
+    </div>
+  </div>
+</div>
+<hr>
+<div class="actions">
+  <%= f.submit "Actualizar", class: 'btn btn-primary', ':disabled' => "$v.$anyError || $v.$invalid"%>
+  <%= link_to 'Cancelar', vehicles_path, class: 'btn btn-outline-secondary' %>
+  <% unless @vehicle.new_record? %>
+    <%= link_to('#', class: 'btn btn-outline-danger float-right', "data-target" => "#destroyModal", "data-toggle" => "modal") do %>
+      <i class="fas fa-trash-alt"></i>
+    <% end -%>
+
+    <!-- BEGIN DESTROY MODAL -->
+    <div id="destroyModal" class="modal fade" aria-hidden="true" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Eliminar vehiculo</h4>
+            <button class="close" aria-hidden="true" data-dismiss="modal" type="button">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p>
+                Esta seguro de eliminar el vehiculo con placa <b><%= @vehicle.plate %></b>? <br> Tenga en cuenta que esta acción es permanente.
+            </p>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-outline-secondary" data-dismiss="modal" type="button">Cerrar</button>
+              <%= link_to "Eliminar", @vehicle, method: :delete, class: 'btn btn-danger' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+<% end %>
+</div>
+
+</div>
+</div>

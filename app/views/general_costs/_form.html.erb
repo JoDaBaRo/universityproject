@@ -1,0 +1,74 @@
+<div class="row">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <%= form_for(@general_cost, html: {id: 'general_costs_form',
+        'data-description'  => @general_cost.description,
+        'data-value'  => @general_cost.value,
+      }
+    ) do |f| %>
+
+<div class="row">
+  <div class="col-lg-5">
+    <div class="form-group">
+      <%= f.label :concepto %>*<br />
+      <%= f.text_field :description, class: 'form-control', "v-model" => "descriptionValue", "@input" => "fieldClass('general_cost_plate', $v.descriptionValue.$invalid), $v.descriptionValue.$touch()" %>
+      <div v-if="$v.descriptionValue.$dirty">
+        <p class="required-field" v-if="!$v.descriptionValue.required">*El campo del concepto es requerido!</p>
+      </div>
+    </div>
+  </div>  
+  <div class="col-lg-5">
+    <div class="form-group">
+      <%= f.label :valor %>*<br />
+      <%= f.number_field :value, class: 'form-control', "v-model" => "valueValue", "@input" => "fieldClass('general_cost_displacement', $v.valueValue.$invalid), $v.valueValue.$touch()" %>
+      <div v-if="$v.valueValue.$dirty">
+        <p class="required-field" v-if="!$v.valueValue.required">*El campo del valor es requerido!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-sm-10 col-md-10 col-lg-10">
+    <div v-show="$v.$invalid" class="alert alert-warning" role="alert">
+      <i class="fas fa-exclamation-circle"></i>
+        Los campos con el * son requeridos
+    </div>
+  </div>
+</div>
+<hr>
+<div class="actions">
+  <%= f.submit "Actualizar", class: 'btn btn-primary', ':disabled' => "$v.$anyError || $v.$invalid"%>
+  <%= link_to 'Cancelar', general_costs_path, class: 'btn btn-outline-secondary' %>
+  <% unless @general_cost.new_record? %>
+    <%= link_to('#', class: 'btn btn-outline-danger float-right', "data-target" => "#destroyModal", "data-toggle" => "modal") do %>
+      <i class="fas fa-trash-alt"></i>
+    <% end -%>
+
+    <!-- BEGIN DESTROY MODAL -->
+    <div id="destroyModal" class="modal fade" aria-hidden="true" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Eliminar costo</h4>
+            <button class="close" aria-hidden="true" data-dismiss="modal" type="button">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p>
+                Esta seguro de eliminar costo de enseñanza <b><%= @general_cost.description %></b>? <br> Tenga en cuenta que esta acción es permanente.
+            </p>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-outline-secondary" data-dismiss="modal" type="button">Cerrar</button>
+              <%= link_to "Eliminar", @general_cost, method: :delete, class: 'btn btn-danger' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+<% end %>
+</div>
+
+</div>
+</div>

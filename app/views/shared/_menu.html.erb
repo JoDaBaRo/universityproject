@@ -6,23 +6,35 @@
      <%= link_to(students_path, class: "list-group-item #{is_students_path}") do %>
        <%= icon('fas','user-alt', 'Estudiantes') %>
      <% end %>
-     <%= link_to(licences_path, class: "list-group-item #{is_licences_path}") do %>
-       <%= icon('fas','address-card', 'Licencia') %>
-     <% end %>
      <%= link_to(teachers_path, class: "list-group-item #{is_teachers_path}") do %>
        <%= icon('fas','user-tie', 'Profesores') %>
+     <% end %> 
+     <%= link_to(licence_types_path, class: "list-group-item #{is_licence_types_path}") do %>
+       <%= icon('fas','address-card', 'Tipo licencias') %>
      <% end %>
      <%= link_to(vehicles_path, class: "list-group-item #{is_vehicles_path}") do %>
        <%= icon('fas','car', 'Vehiculos') %>
+     <% end %>     
+     <%= link_to(vehicle_categories_path, class: "list-group-item #{is_vehicle_categories_path}") do %>
+       <%= icon('fas','list-ul', 'Categoria vehiculo') %>
      <% end %>
      <%= link_to(classes_path, class: "list-group-item #{is_classes_path}") do %>
        <%= icon('fas','chalkboard-teacher', 'Clases') %>
      <% end %>
      <%= link_to(theoretical_classes_path, class: "list-group-item #{is_theoretical_classes_path}") do %>
-       <%= icon('fas','chalkboard-teacher', 'Clases teoricas') %>
+       <%= icon('fas','chalkboard', 'Clases teoricas') %>
      <% end %>
      <%= link_to(practical_classes_path, class: "list-group-item #{is_practical_classes_path}") do %>
-       <%= icon('fas','chalkboard-teacher', 'Clases practicas') %>
+       <%= icon('fas','road', 'Clases practicas') %>
+     <% end %>     
+     <%= link_to(general_costs_path, class: "list-group-item #{is_general_costs_path}") do %>
+       <%= icon('fas','money-bill-wave', 'Costos generales') %>
+     <% end %>     
+     <%= link_to(control_tests_path, class: "list-group-item #{is_control_tests_path}") do %>
+       <%= icon('fas','vial', 'Pruebas de control') %>
+     <% end %>
+     <%= link_to(tests_path, class: "list-group-item #{is_tests_path}") do %>
+       <%= icon('fas','sticky-note', 'Tipo examen') %>
      <% end %>
     </div>
 </div>
