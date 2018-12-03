@@ -2,23 +2,35 @@ Rails.application.routes.draw do
   devise_for :users
   root 'pages#welcome'
   
-namespace :api do
-  get 'teachers/:licence_type_id', to: 'teachers#fetch_teachers'
-end
+  namespace :api do
+    get 'teachers/:licence_type_id', to: 'teachers#fetch_teachers'
+  end
 
   resources :people, :path => 'personas'
   
 
   resources :students, :path => 'estudiantes' do
     resources :enrollments, :path => 'matriculas'
+    resources :student_licences, :path => 'licencias'
   end
 
+  resources :teachers, :path => 'profesores' do
+    resources :teacher_categories, :path => 'categorias'
+  end  
 
+  resources :practical_classes, :path => 'clases_practicas' do
+    resources :practical_licence_classes, :path => 'categorias'
+  end
+  
   resources :teachers, :path => 'profesores'
-  resources :licences, :path => 'licencias'
+  resources :licence_types, :path => 'tipo_de_licencias'
   resources :classes, :path => 'clases'
   resources :practical_classes, :path => 'clases_practicas'
   resources :theoretical_classes, :path => 'clases_teoricas'
   resources :vehicles, :path => 'vehiculos'
+  resources :vehicle_categories, :path => 'categoria_vehiculos'
+  resources :general_costs, :path => 'tipo_de_costo'
+  resources :control_tests, :path => 'prueba_control'
+  resources :tests, :path => 'examenes'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

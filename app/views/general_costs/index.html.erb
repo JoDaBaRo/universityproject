@@ -1,0 +1,48 @@
+<%= render 'shared/card',has_return: true, breadcrumbs: {crumbs: [], active_label: "Tipos de costo"} do %>
+<div class="row">
+  <div class="col-lg-12">
+    <%= link_to(new_general_cost_path, class: 'btn btn-primary') do%>
+     <%= icon('fas','plus', 'Agregar') %>
+     <% end %>
+  </div>
+</div>
+<% if @general_costs.empty? %>
+  <br>
+  <div class="alert alert-info">
+    <strong>&iexcl;Atenci&oacute;n!</strong>
+      Aun no se registran costos de enseñanza, has clic en el bot&oacute;n <%= fw_icon('plus') %> para agregar el primero.
+  </div>
+<% else %>
+<div class="row">
+    <div class="col-lg-12">
+      <br>
+      <h5>Listado de costos de enseñanza</h5>
+      <hr>
+      <div class="table-responsive">
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th width='15%'></th>
+              <th width='25%'>Concepto</th>
+              <th width='20%'>Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @general_costs.each do |general_cost| %>
+              <tr>
+                <td>
+                  <%= link_to(edit_general_cost_path(general_cost), class: 'btn btn-outline-dark btn-sm') do %>
+                    <%= icon('fas', 'pencil-alt', 'editar') %>
+                  <% end %>
+                </td>
+                <td><%= general_cost.description %></td>
+                <td><%= number_to_currency(general_cost.value) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% end %>

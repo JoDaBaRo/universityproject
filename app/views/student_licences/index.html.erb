@@ -1,0 +1,54 @@
+<%= render 'shared/card', has_return: true, has_return: students_path, breadcrumbs: {crumbs: [name: 'Estudiantes', path: students_path], active_label: "Licencias del alumno: #{@student.person.name} #{@student.person.last_name}"} do %>
+<div class="row">
+  <div class="col-lg-12">
+    <%= link_to(new_student_student_licence_path, class: 'btn btn-primary') do%>
+     <%= icon('fas','plus', 'Agregar') %>
+     <% end %>
+  </div>
+</div>
+<% if @student_licences.empty? %>
+  <br>
+  <div class="alert alert-info">
+    <strong>&iexcl;Atenci&oacute;n!</strong>
+      Aun no se registran licencias para este estudainte, has clic en el bot&oacute;n <%= fw_icon('plus') %> para agregar la primera.
+  </div>
+<% else %>
+<div class="row">
+    <div class="col-lg-12">
+      <br>
+      <h5>Listado de licencias registradas para este estudiante</h5>
+      <br>
+      <div class="table-responsive">
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th width='5%'></th>
+              <th width='10%'>Tipo de categoria</th>
+              <th width='10%'>Tipo servicio</th>
+              <th width='10%'>Vehiculos permitidos</th> 
+              <th width='10%'>Fecha de expedicion</th> 
+              <th width='10%'>Fecha de expiracion</th> 
+            </tr>
+          </thead>
+          <tbody>
+            <% @student_licences.each do |student_licence| %>
+              <tr>
+                <td>
+                  <%= link_to(edit_student_student_licence_path(id: student_licence[:id]), class: 'btn btn-outline-dark btn-sm') do %>
+                    <%= icon('fas', 'pencil-alt', 'editar') %>
+                  <% end %>
+                </td>
+                <td><%= student_licence.licence_type.category %></td>
+                <td><%= student_licence.licence_type.service_type %></td>
+                <td><%= student_licence.licence_type.allowed_vehicles %></td>
+                <td><%= student_licence.expedition_date.strftime("%Y/%m/%d") %></td>
+                <td><%= student_licence.expiration_date.strftime("%Y/%m/%d") %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% end %>

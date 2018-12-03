@@ -8,7 +8,7 @@
 // layout file, like app/views/layouts/application.html.erb
 //= require_tree .
 //= require  hello_vue
-import 'bootstrap/dist/js/bootstrap';
+import 'bootstrap/dist/js/bootstrap'; 
 console.log('Hello World from Webpacker')
 require('./hello_vue');
 require('./sign_up');
@@ -16,4 +16,13 @@ require('./people');
 require('./theoretical_classes');
 require('./practical_classes');
 require('./enrollment');
+require('./licence_types');
+require('./vehicle_categories');
+require('./vehicles');
+require('./general_costs');
+require('./control_tests');
+require('./tests');
+require('./teacher_categories');
+require('./practical_licence_classes');
+require('./student_licences');
 window.axios = require('axios');

@@ -1,0 +1,48 @@
+<%= render 'shared/card',has_return: true, breadcrumbs: {crumbs: [], active_label: "Prueba de control"} do %>
+<div class="row">
+  <div class="col-lg-12">
+    <%= link_to(new_control_test_path, class: 'btn btn-primary') do%>
+     <%= icon('fas','plus', 'Agregar') %>
+     <% end %>
+  </div>
+</div>
+<% if @control_tests.empty? %>
+  <br>
+  <div class="alert alert-info">
+    <strong>&iexcl;Atenci&oacute;n!</strong>
+      Aun no se registran pruebas de control, has clic en el bot&oacute;n <%= fw_icon('plus') %> para agregar la primera.
+  </div>
+<% else %>
+<div class="row">
+    <div class="col-lg-12">
+      <br>
+      <h5>Listado de pruebas de control registradas</h5>
+      <br>
+      <div class="table-responsive">
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th width='3%'></th>
+              <th width='25%'>Descripcion</th>
+              <th width='25%'>Tiempo de duracion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @control_tests.each do |control_test| %>
+                <tr>
+                  <td>
+                    <%= link_to(edit_control_test_path(control_test), class: 'btn btn-outline-dark btn-sm') do %>
+                      <%= icon('fas', 'pencil-alt', 'editar') %>
+                    <% end %>
+                  </td>
+                  <td><%= control_test.description %></td>
+                  <td><%= control_test.test_length %></td>
+                </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% end %>

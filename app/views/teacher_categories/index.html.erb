@@ -1,0 +1,50 @@
+<%= render 'shared/card', has_return: true, has_return: teachers_path, breadcrumbs: {crumbs: [name: 'Profesores', path: teachers_path], active_label: "Categorias del profesor: #{@teacher.person.name} #{@teacher.person.last_name}"} do %>
+<div class="row">
+  <div class="col-lg-12">
+    <%= link_to(new_teacher_teacher_category_path, class: 'btn btn-primary') do%>
+     <%= icon('fas','plus', 'Agregar') %>
+     <% end %>
+  </div>
+</div>
+<% if @teacher_categories.empty? %>
+  <br>
+  <div class="alert alert-info">
+    <strong>&iexcl;Atenci&oacute;n!</strong>
+      Aun no se registran categorias para este profesor, has clic en el bot&oacute;n <%= fw_icon('plus') %> para agregar la primera.
+  </div>
+<% else %>
+<div class="row">
+    <div class="col-lg-12">
+      <br>
+      <h5>Listado de categorias registradas para este profesor</h5>
+      <br>
+      <div class="table-responsive">
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th width='5%'></th>
+              <th width='10%'>Tipo de categoria</th>
+              <th width='10%'>Tipo servicio</th>
+              <th width='10%'>Vehiculos permitidos</th> 
+            </tr>
+          </thead>
+          <tbody>
+            <% @teacher_categories.each do |teacher_category| %>
+              <tr>
+                <td>
+                  <%= link_to(edit_teacher_teacher_category_path(id: teacher_category[:id]), class: 'btn btn-outline-dark btn-sm') do %>
+                    <%= icon('fas', 'pencil-alt', 'editar') %>
+                  <% end %>
+                </td>
+                <td><%= teacher_category.licence_type.category %></td>
+                <td><%= teacher_category.licence_type.service_type %></td>
+                <td><%= teacher_category.licence_type.allowed_vehicles %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% end %>

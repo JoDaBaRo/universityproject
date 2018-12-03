@@ -1,0 +1,50 @@
+<%= render 'shared/card',has_return: true, breadcrumbs: {crumbs: [], active_label: "Examenes"} do %>
+<div class="row">
+  <div class="col-lg-12">
+    <%= link_to(new_test_path, class: 'btn btn-primary') do%>
+     <%= icon('fas','plus', 'Agregar') %>
+     <% end %>
+  </div>
+</div>
+<% if @tests.empty? %>
+  <br>
+  <div class="alert alert-info">
+    <strong>&iexcl;Atenci&oacute;n!</strong>
+      Aun no se registran examenes, has clic en el bot&oacute;n <%= fw_icon('plus') %> para agregar la primera.
+  </div>
+<% else %>
+<div class="row">
+    <div class="col-lg-12">
+      <br>
+      <h5>Listado de examenes registrados</h5>
+      <br>
+      <div class="table-responsive">
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th width='3%'></th>
+              <th width='25%'>Tipo de examen</th>
+              <th width='25%'>Tiempo de duracion</th>
+              <th width='25%'>Valor examen</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @tests.each do |test| %>
+                <tr>
+                  <td>
+                    <%= link_to(edit_test_path(test), class: 'btn btn-outline-dark btn-sm') do %>
+                      <%= icon('fas', 'pencil-alt', 'editar') %>
+                    <% end %>
+                  </td>
+                  <td><%= test.test_type %></td>
+                  <td><%= test.test_length %></td>
+                  <td><%= number_to_currency(test.test_value) %></td>
+                </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% end %>

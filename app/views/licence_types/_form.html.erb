@@ -1,0 +1,109 @@
+<div class="row">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <%= form_for(@licence_type, html: {id: 'licence_types_form',
+        'data-allowed-vehicles'  => @licence_type.allowed_vehicles,
+        'data-category'  => @licence_type.category,
+        'data-service-type'  => @licence_type.service_type,
+        'data-licence-cost'  => @licence_type.licence_cost,
+        'data-practical-hours'  => @licence_type.practical_hours,
+      }
+    ) do |f| %>
+
+<div class="row">
+  <div class="col-lg-5">
+    <div class="form-group">
+      <%= f.label :vehiculos_permitidos %>*<br />
+      <%= f.text_field :allowed_vehicles, class: 'form-control', "v-model" => "allowedVehiclesValue", "@input" => "fieldClass('licence_type_allowed_vehicles', $v.allowedVehiclesValue.$invalid), $v.allowedVehiclesValue.$touch()" %>
+      <div v-if="$v.allowedVehiclesValue.$dirty">
+        <p class="required-field" v-if="!$v.allowedVehiclesValue.required">*El campo de vehiculos permitidos es requerido!</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="form-group">
+      <%= f.label :cantidad_horas_practicas %>*<br />
+      <%= f.number_field :practical_hours, class: 'form-control', "v-model" => "practicalHoursValue", "@input" => "fieldClass('licence_type_practical_hours', $v.practicalHoursValue.$invalid), $v.practicalHoursValue.$touch()" %>
+      <div v-if="$v.practicalHoursValue.$dirty">
+        <p class="required-field" v-if="!$v.practicalHoursValue.required">*El campo de cantidad de horas es requerido!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-5">
+    <div class="form-group">
+      <%= f.label :categoria %>*<br />
+      <%= f.text_field :category, class: 'form-control', "v-model" => "categoryValue", "@input" => "fieldClass('licence_type_category', $v.categoryValue.$invalid), $v.categoryValue.$touch()" %>
+      <div v-if="$v.categoryValue.$dirty">
+        <p class="required-field" v-if="!$v.categoryValue.required">*El campo de categoria es requerido!</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="form-group">
+      <%= f.label :tipo_de_servicio %>*<br />
+      <%= f.text_field :service_type, class: 'form-control', "v-model" => "serviceTypeValue", "@input" => "fieldClass('licence_type_service_type', $v.serviceTypeValue.$invalid), $v.serviceTypeValue.$touch()" %>
+      <div v-if="$v.serviceTypeValue.$dirty">
+        <p class="required-field" v-if="!$v.serviceTypeValue.required">*El campo de tipo de es requerido!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-5">
+    <div class="form-group">
+      <%= f.label :costo_de_licencia %>*<br />
+      <%= f.number_field :licence_cost, class: 'form-control', "v-model" => "licenceCostValue", "@input" => "fieldClass('licence_type_licence_cost', $v.licenceCostValue.$invalid), $v.licenceCostValue.$touch()" %>
+      <div v-if="$v.licenceCostValue.$dirty">
+        <p class="required-field" v-if="!$v.licenceCostValue.required">*El campo de duracion es requerido!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-10 col-md-10 col-lg-10">
+    <div v-show="$v.$invalid" class="alert alert-warning" role="alert">
+      <i class="fas fa-exclamation-circle"></i>
+        Los campos con el * son requeridos
+    </div>
+  </div>
+</div>
+<hr>
+<div class="actions">
+  <%= f.submit "Actualizar", class: 'btn btn-primary', ':disabled' => "$v.$anyError || $v.$invalid"%>
+  <%= link_to 'Cancelar', licence_types_path, class: 'btn btn-outline-secondary' %>
+  <% unless @licence_type.new_record? %>
+    <%= link_to('#', class: 'btn btn-outline-danger float-right', "data-target" => "#destroyModal", "data-toggle" => "modal") do %>
+      <i class="fas fa-trash-alt"></i>
+    <% end -%>
+
+    <!-- BEGIN DESTROY MODAL -->
+    <div id="destroyModal" class="modal fade" aria-hidden="true" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Eliminar licencia</h4>
+            <button class="close" aria-hidden="true" data-dismiss="modal" type="button">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p>
+                Esta seguro de eliminar el tipo de licencia <b><%= @licence_type.category %></b>? <br> Tenga en cuenta que esta acción es permanente.
+            </p>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-outline-secondary" data-dismiss="modal" type="button">Cerrar</button>
+              <%= link_to "Eliminar", @licence_type, method: :delete, class: 'btn btn-danger' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+<% end %>
+</div>
+
+</div>
+</div>

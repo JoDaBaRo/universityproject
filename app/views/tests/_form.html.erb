@@ -1,0 +1,116 @@
+<div class="row">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <%= form_for(@test, html: {id: 'tests_form',
+        'data-test-type'  => @test.test_type,
+        'data-test-length'  => @test.test_length,
+        'data-test-value'  => @test.test_value,
+      }
+    ) do |f| %>
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="form-group">
+      <%= f.label :duracion_prueba_en_minutos %>*<br />
+      <%= f.number_field :test_length, class: 'form-control', "v-model" => "testLengthValue", "@input" => "fieldClass('test_test_length', $v.testLengthValue.$invalid), $v.testLengthValue.$touch()" %>
+      <div v-if="$v.testLengthValue.$dirty">
+        <p class="required-field" v-if="!$v.testLengthValue.required">*El campo de duracion es requerido!</p>
+      </div>
+    </div>
+  </div>  
+  <div class="col-lg-4">
+    <div class="form-group">
+      <%= f.label :costo_prueba %>*<br />
+      <%= f.number_field :test_value, class: 'form-control', "v-model" => "testvalueValue", "@input" => "fieldClass('test_test_length', $v.testvalueValue.$invalid), $v.testvalueValue.$touch()" %>
+      <div v-if="$v.testvalueValue.$dirty">
+        <p class="required-field" v-if="!$v.testvalueValue.required">*El campo del valor es requerido!</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="form-group">
+      <%= f.label :tipo_examen %>*<br />
+      <%= f.collection_select(
+          :test_type,
+          TEST_TYPES,
+          :last,
+          :first,
+          {include_blank: false},
+          {
+            class: 'form-control selectpicker',
+            "v-model" => "testTypeValue"  
+          }
+      )%>
+    </div>
+  </div>  
+</div>
+
+<!--<div class="row">
+  <div class="col-lg-5">
+    <div class="form-group">
+      <#%= f.label :tipos_de_licencias_permitidas %><br />
+      <#%= f.text_field , class: 'form-control'%>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="form-group">
+      <#%= f.label :categoria %>*<br />
+      <#%= f.collection_select(
+          :licence_type_id,
+          LicenceType.all,
+          :id,
+          :category,
+          {include_blank: false},
+          {
+            class: 'form-control selectpicker',
+            multiple: true,
+            "v-model" => "licenceTypeValue"  
+          }
+      )%>
+    </div>
+  </div>  
+</div>-->
+
+<div class="row">
+  <div class="col-sm-10 col-md-10 col-lg-10">
+    <div v-show="$v.$invalid" class="alert alert-warning" role="alert">
+      <i class="fas fa-exclamation-circle"></i>
+        Los campos con el * son requeridos
+    </div>
+  </div>
+</div>
+<hr>
+<div class="actions">
+  <%= f.submit "Actualizar", class: 'btn btn-primary', ':disabled' => "$v.$anyError || $v.$invalid"%>
+  <%= link_to 'Cancelar', tests_path, class: 'btn btn-outline-secondary' %>
+  <% unless @test.new_record? %>
+    <%= link_to('#', class: 'btn btn-outline-danger float-right', "data-target" => "#destroyModal", "data-toggle" => "modal") do %>
+      <i class="fas fa-trash-alt"></i>
+    <% end -%>
+
+    <!-- BEGIN DESTROY MODAL -->
+    <div id="destroyModal" class="modal fade" aria-hidden="true" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Eliminar prueba</h4>
+            <button class="close" aria-hidden="true" data-dismiss="modal" type="button">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p>
+                Esta seguro de eliminar el examen <b><%= @test.test_type %></b>? <br> Tenga en cuenta que esta acción es permanente.
+            </p>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-outline-secondary" data-dismiss="modal" type="button">Cerrar</button>
+              <%= link_to "Eliminar", @test, method: :delete, class: 'btn btn-danger' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+<% end %>
+</div>
+
+</div>
+</div>

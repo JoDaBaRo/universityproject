@@ -52,9 +52,33 @@ module ApplicationHelper
     end
   end
 
-  def is_licences_path
+  def is_licence_types_path
     case request.params[:controller]
-    when 'licences' then 'active'
+    when 'licence_types' then 'active'
+    end
+  end  
+
+  def is_vehicle_categories_path
+    case request.params[:controller]
+    when 'vehicle_categories' then 'active'
+    end
+  end  
+
+  def is_general_costs_path
+    case request.params[:controller]
+    when 'general_costs' then 'active'
+    end
+  end  
+
+  def is_control_tests_path
+    case request.params[:controller]
+    when 'control_tests' then 'active'
+    end
+  end
+
+  def is_tests_path
+    case request.params[:controller]
+    when 'tests' then 'active'
     end
   end
 end

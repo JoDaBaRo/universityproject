@@ -1,0 +1,70 @@
+<div class="row">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <%= form_for([@teacher,@teacher_category], html: {id: 'teacher_categories_form',
+        'data-licence-type' => @teacher_category.licence_type ? @teacher_category.licence_type.category : '',
+      }
+    ) do |f| %>
+<div class="row">
+  <div class="col-lg-5">
+    <div class="form-group">
+      <%= f.label :tipo_de_licencia %>*<br />
+      <%= f.collection_select(
+          :licence_type_id,
+          #this will be a helper method return
+          LicenceType.all,
+          :id,
+          :category,
+          {include_blank: true},
+          {
+            class: 'form-control selectpicker',
+            "v-model" => "licenceTypeValue"
+          }
+      )%>
+    </div>
+  </div>  
+</div>
+<div class="row">
+  <div class="col-sm-10 col-md-10 col-lg-10">
+    <div v-show="$v.$invalid" class="alert alert-warning" role="alert">
+      <i class="fas fa-exclamation-circle"></i>
+        Los campos con el * son requeridos
+    </div>
+  </div>
+</div>
+<hr>
+<div class="actions">
+  <%= f.submit "Sign up", class: 'btn btn-primary' , ':disabled' => "$v.$anyError || !$v.$invalid" %>
+  <%= link_to 'Cancelar', teacher_teacher_categories_path(@teacher), class: 'btn btn-outline-secondary' %>
+  <% unless @teacher_category.new_record? %>
+    <%= link_to('#', class: 'btn btn-outline-danger float-right', "data-target" => "#destroyModal", "data-toggle" => "modal") do %>
+      <i class="fas fa-trash-alt"></i>
+    <% end -%>
+
+    <!-- BEGIN DESTROY MODAL -->
+    <div id="destroyModal" class="modal fade" aria-hidden="true" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Eliminar categoria</h4>
+            <button class="close" aria-hidden="true" data-dismiss="modal" type="button">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p>
+                Esta seguro de eliminar la categoria <b><%= @teacher_category.licence_type.category %></b>? <br> Tenga en cuenta que esta acción es permanente.
+            </p>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-outline-secondary" data-dismiss="modal" type="button">Cerrar</button>
+              <%= link_to "Eliminar", teacher_teacher_category_path(@teacher,@teacher_category), method: :delete, class: 'btn btn-danger' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+<% end %>
+</div>
+
+</div>  
+</div>
+

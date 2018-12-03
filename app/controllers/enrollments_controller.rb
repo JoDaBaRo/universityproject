@@ -16,13 +16,15 @@ before_action :set_student
   end
 
   def create
-    @enrollment = @student.enrollments.new(enrollment_params)
-
+    h = {}
+    h["practical_hours"] = LicenceType.find(enrollment_params[:licence_type_id]).practical_hours
+    h.merge!(enrollment_params)
+    @enrollment = @student.enrollments.new(h)
     respond_to do |format|
       if @enrollment.save
-        format.html { redirect_to people_path, notice: 'La matricula fue creada exitosamente.' }
+        format.html { redirect_to student_enrollments_path, notice: 'La matricula fue creada exitosamente.' }
       else
-        format.html { redirect_to new_person_path, alert: "No fue posible concretar el registro, por favor revise los campos e intente de nuevo" }
+        format.html { redirect_to new_student_enrollment_path, alert: "No fue posible concretar el registro, por favor revise los campos e intente de nuevo" }
       end
     end
   end
@@ -30,9 +32,9 @@ before_action :set_student
   def update
     respond_to do |format|
       if @enrollment.update(person_params)
-        format.html { redirect_to people_path, notice: "La matricula de  #{@enrollment.licence_type.category} fue actualizada exitosamente." }
+        format.html { redirect_to student_enrollments_path, notice: "La matricula de  #{@enrollment.licence_type.category} fue actualizada exitosamente." }
       else
-        format.html { redirect_to new_person_path, alert: "No fue posible concretar el registro, por favor revise los campos e intente de nuevo" }
+        format.html { redirect_to edit_student_enrollment_path, alert: "No fue posible concretar el registro, por favor revise los campos e intente de nuevo" }
       end
     end
   end
@@ -42,9 +44,9 @@ before_action :set_student
 
     respond_to do |format|
       if @enrollment.errors.details.empty?
-        format.html { redirect_to people_path(page: params[:page]), notice: "La matricula de #{@enrollment.licence_type.category} fue eliminada exitosamente." }
+        format.html { redirect_to student_enrollments_path(page: params[:page]), notice: "La matricula de #{@enrollment.licence_type.category} fue eliminada exitosamente." }
       else
-        format.html { redirect_to new_person_path(page: params[:page]), alert: "No fue posible concretar el registro, por favor revise los campos e intente de nuevo"}
+        format.html { redirect_to edit_student_enrollment_path(page: params[:page]), alert: "No fue posible concretar el registro, por favor revise los campos e intente de nuevo"}
       end
     end
   end
@@ -56,7 +58,7 @@ def enrollment_params
   :enroll_date,
   :theoretical_hours,
   :practical_hours,
-  :teacher_category_id,
+  :teacher_id,
   :licence_type_id
   )
 end

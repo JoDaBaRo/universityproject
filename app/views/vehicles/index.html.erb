@@ -1,3 +1,11 @@
+<%= render 'shared/card',has_return: true, breadcrumbs: {crumbs: [], active_label: "Vehiculos"} do %>
+<div class="row">
+  <div class="col-lg-12">
+    <%= link_to(new_vehicle_path, class: 'btn btn-primary') do%>
+     <%= icon('fas','plus', 'Agregar') %>
+     <% end %>
+  </div>
+</div>
 <% if @vehicles.empty? %>
   <br>
   <div class="alert alert-info">
@@ -19,16 +27,22 @@
               <th width='20%'>Nombre</th>
               <th width='20%'>Marca</th>
               <th width='20%'>Año del modelo</th>
+              <th width='20%'>Tipo</th>
             </tr>
           </thead>
           <tbody>
             <% @vehicles.each do |vehicle| %>
               <tr>
-                <td></td>
+                <td>
+                  <%= link_to(edit_vehicle_path(vehicle), class: 'btn btn-outline-dark btn-sm') do %>
+                    <%= icon('fas', 'pencil-alt', 'editar') %>
+                  <% end %>
+                </td>
                 <td><%= vehicle.plate %></td>
                 <td><%= vehicle.name %></td>
                 <td><%= vehicle.brand %></td>
                 <td><%= vehicle.model_year %></td>
+                <td><%= vehicle.vehicle_category.vehicle_type %></td>
               </tr>
             <% end %>
           </tbody>
@@ -36,4 +50,5 @@
       </div>
     </div>
   </div>
+<% end %>
 <% end %>
