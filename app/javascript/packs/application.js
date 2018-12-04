@@ -6,10 +6,8 @@
 //
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
-//= require_tree .
-//= require  hello_vue
-import 'bootstrap/dist/js/bootstrap'; 
-console.log('Hello World from Webpacker')
+//= require_tree.
+console.log('Hello World from Webpacker');
 require('./hello_vue');
 require('./sign_up');
 require('./people');
@@ -25,4 +23,3 @@ require('./tests');
 require('./teacher_categories');
 require('./practical_licence_classes');
 require('./student_licences');
-window.axios = require('axios');

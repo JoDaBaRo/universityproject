@@ -10,20 +10,11 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+
 //= require rails-ujs
 //= require activestorage
-//= require_tree 
 //= require jquery
+//= require jquery_ujs
 //= require popper
 //= require bootstrap
 //= require bootstrap-select
-//= require moment/moment.js
-//= require bootstrap-datepicker/js/bootstrap-datepicker
-
-$('.datepicker').datepicker({
-  startView: 1,
-  format: 'yyyy-mm-dd',
-  autoclose: false
-});
-
-

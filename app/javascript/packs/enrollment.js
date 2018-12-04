@@ -1,7 +1,7 @@
 import Vue from 'vue/dist/vue.esm';
 import Vuelidate from 'vuelidate';
-import axios from 'axios'
-import VueAxios from 'vue-axios'
+import axios from 'axios';
+import VueAxios from 'vue-axios';
 import { required } from 'vuelidate/lib/validators';
 Vue.use(Vuelidate);
 Vue.use(VueAxios, axios)
@@ -37,9 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       fetchTeachers() {
         this.axios.get('/api/teachers/' + this.licenceTypeValue).then(response => (this.teachers = response.data))
-        $('.selectpicker').selectpicker();
-        $('.selectpicker').selectpicker('refresh');
+        setTimeout(function() {
+          $('.selectpicker').selectpicker('refresh');
+        }, 0)
       }
-    } 
+    }, 
   })
 }})
