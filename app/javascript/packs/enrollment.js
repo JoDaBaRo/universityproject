@@ -7,7 +7,8 @@ Vue.use(Vuelidate);
 Vue.use(VueAxios, axios)
 document.addEventListener('DOMContentLoaded', () => {
   if(document.getElementById('enrollment_form')) {
-  var app = new Vue({
+
+ new Vue({
     el: '#enrollment_form',
     data: {
       enrollDateValue: document.getElementById('enrollment_form').getAttribute('data-enrollment-date'),
@@ -36,11 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
       },
 
       fetchTeachers() {
-        this.axios.get('/api/teachers/' + this.licenceTypeValue).then(response => (this.teachers = response.data))
-        setTimeout(function() {
-          $('.selectpicker').selectpicker('refresh');
-        }, 0)
+        this.axios.get('/api/teachers/' + this.licenceTypeValue).then(response => (this.teachers = response.data));
+        selectpickerRefresh();
       }
-    }, 
+    }
   })
-}})
+}
+})

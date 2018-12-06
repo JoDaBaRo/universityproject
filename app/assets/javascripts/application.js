@@ -18,3 +18,17 @@
 //= require popper
 //= require bootstrap
 //= require bootstrap-select
+//= require moment
+//= require tempusdominus-bootstrap-4.js
+function selectpickerRefresh() {
+ setTimeout(function(){
+  $('.selectpicker').selectpicker('refresh');
+ }, 35)
+}
+
+$( window ).on( "load", function() {
+ $('#datetimepicker4').datetimepicker({
+    format: 'L'
+  });
+});
+

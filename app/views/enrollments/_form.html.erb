@@ -11,7 +11,12 @@
   <div class="col-lg-5">
     <div class="form-group">
       <%= f.label :fecha_de_matricula %>*<br />
-        <%= f.date_field :enroll_date, class: 'form-control datepicker', "v-model" => "enrollDateValue", "@input" => "fieldClass('enrollment_enroll_date', $v.enrollDateValue.$invalid), $v.enrollDateValue.$touch()" %>
+      <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+        <%= f.text_field :enroll_date, class: 'form-control datetimepicker-input', "data-target"=>"#datetimepicker4", "v-model" => "enrollDateValue", "@input" => "fieldClass('enrollment_enroll_date', $v.enrollDateValue.$invalid), $v.enrollDateValue.$touch()" %>
+        <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+          <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+        </div>
+      </div>
       <div v-if="$v.enrollDateValue.$dirty">
         <p class="required-field" v-if="!$v.enrollDateValue.required">*El campo es requerido!</p>
       </div>
