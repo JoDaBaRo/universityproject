@@ -1,16 +1,18 @@
 import Vue from 'vue/dist/vue.esm';
 import Vuelidate from 'vuelidate';
-import { required } from 'vuelidate/lib/validators';
+import { required, between } from 'vuelidate/lib/validators';
 Vue.use(Vuelidate);
 document.addEventListener('DOMContentLoaded', () => {
   if(document.getElementById('student_advances_form')) {
 
- new Vue({
+ var a = new Vue({
     el: '#student_advances_form',
     data: {
       advanceDateValue: document.getElementById('student_advances_form').getAttribute('data-advance-date'),
       descriptionValue: document.getElementById('student_advances_form').getAttribute('data-description'),
-      advanceValueValue: document.getElementById('student_advances_form').getAttribute('data-advance-value'),
+      advanceValueValue: parseInt(document.getElementById('student_advances_form').getAttribute('data-advance-value')),
+      costValue: document.getElementById('student_advances_form').getAttribute('data-total-cost'),
+      debtValue: document.getElementById('student_advances_form').getAttribute('data-total-debt'),
     },
     validations: {
       advanceDateValue: {
@@ -20,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         required
       },
       advanceValueValue: {
-        required,
+        required
       },
     },
     methods: {
@@ -30,6 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
           HtmlClass = 'form-control is-invalid';
         }
         document.getElementById(element).className = HtmlClass;
+      }
+    },
+    computed: {
+      boolComputed: function(){
+        return parseInt(this.debtValue) >= parseInt(this.advanceValueValue)
       }
     }
   })

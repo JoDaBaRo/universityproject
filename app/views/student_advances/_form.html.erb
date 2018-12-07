@@ -36,7 +36,6 @@
     </div>
   </div>
 </div>
-
 <div class="row">
   <div class="col-lg-5">
     <div class="form-group">
@@ -44,19 +43,20 @@
       <%= f.number_field :advance_value, class: 'form-control', "v-model" => "advanceValueValue", "@input" => "fieldClass('student_advance_advance_value', $v.advanceValueValue.$invalid), $v.advanceValueValue.$touch()" %>
     <div v-if="$v.advanceValueValue.$dirty">
       <p class="required-field" v-if="!$v.advanceValueValue.required">*El campo del valor es requerido!</p>
+      <p class="required-field" v-if="!boolComputed">el valor a pagar debe ser menor a la deuda!</p>
     </div>
     </div>
   </div>
   <div class="col-lg-3">
     <div class="form-group">
       <%= f.label :costo_enseñanza %>*<br />
-      <%= f.number_field :advance_value, class: 'form-control', "v-model" => "costValue" %>
+      <%= f.number_field :advance_value, class: 'form-control', "v-model" => "costValue", disabled: true %>
     </div>
   </div>
   <div class="col-lg-3">
     <div class="form-group">
       <%= f.label :deuda_total %>*<br />
-      <%= f.number_field :advance_value, class: 'form-control', "v-model" => "debtValue" %>
+      <%= f.number_field :advance_value, class: 'form-control', "v-model" => "debtValue", disabled: true %>
     </div>
   </div>
 </div>
@@ -72,7 +72,7 @@
 </div>
 <hr>
 <div class="actions">
-  <%= f.submit "Sign up", class: 'btn btn-primary', ':disabled' => "$v.$anyError || $v.$invalid"%>
+  <%= f.submit student_advance.new_record? ? "Registrar" : "Actualizar" , class: 'btn btn-primary', ':disabled' => "$v.$anyError || $v.$invalid || !boolComputed"%>
   <%= link_to 'Cancelar', student_enrollment_student_advances_path, class: 'btn btn-outline-secondary' %>
   <% unless student_advance.new_record? %>
     <%= link_to('#', class: 'btn btn-outline-danger float-right', "data-target" => "#destroyModal", "data-toggle" => "modal") do %>
