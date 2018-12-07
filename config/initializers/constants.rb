@@ -7,3 +7,4 @@ TEST_TYPES = {
  "Practica" => "Practica",
  "Teorica" => "Teorica"
 }
+

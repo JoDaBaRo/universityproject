@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     get 'teachers/:licence_type_id', to: 'teachers#fetch_teachers'
+    get 'students/:teacher_id', to: 'students#fetch_students'
+    get 'classes/:class_type', to: 'classes#fetch_topics'
   end
 
   resources :people, :path => 'personas'
@@ -27,6 +29,7 @@ Rails.application.routes.draw do
   resources :teachers, :path => 'profesores'
   resources :licence_types, :path => 'tipo_de_licencias'
   resources :classes, :path => 'clases'
+  post 'classes/create', to: 'classes#create'
   resources :practical_classes, :path => 'clases_practicas'
   resources :theoretical_classes, :path => 'clases_teoricas'
   resources :vehicles, :path => 'vehiculos'

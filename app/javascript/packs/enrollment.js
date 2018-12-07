@@ -8,7 +8,7 @@ Vue.use(VueAxios, axios)
 document.addEventListener('DOMContentLoaded', () => {
   if(document.getElementById('enrollment_form')) {
 
- new Vue({
+ var app = new Vue({
     el: '#enrollment_form',
     data: {
       enrollDateValue: document.getElementById('enrollment_form').getAttribute('data-enrollment-date'),

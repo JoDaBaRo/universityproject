@@ -1,4 +1,11 @@
 <%= render 'shared/card',has_return: true, breadcrumbs: {crumbs: [], active_label: "Clases"} do %>
+<div class="row">
+  <div class="col-lg-12">
+    <%= link_to(new_class_path, class: 'btn btn-primary') do%>
+     <%= icon('fas','plus', 'Agregar') %>
+     <% end %>
+  </div>
+</div>
 <% if @classes[:practical].empty? && @classes[:theoretical].empty? %>
   <br>
   <div class="alert alert-info">
@@ -29,9 +36,9 @@
                       <%= icon('fas', 'pencil-alt', 'editar') %>
                     <% end %>
                   </td>
-                  <td><%= class_type.description %></td>
-                  <td><%= class_type.class_length %></td>
-                  <td><%= class_type.licence_types.empty? ? "-" : class_type.licence_types.first.category %></td>
+                  <td><%= class_type.practical_class.description %></td>
+                  <td><%= class_type.class_date %></td>
+                  <td><%= class_type.vehicle.plate %></td>
                 </tr>
             <% end %>
           </tbody>
