@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   root 'pages#welcome'
-  
+
   namespace :api do
     get 'teachers/:licence_type_id', to: 'teachers#fetch_teachers'
     get 'students/:teacher_id', to: 'students#fetch_students'
@@ -9,21 +9,23 @@ Rails.application.routes.draw do
   end
 
   resources :people, :path => 'personas'
-  
+
 
   resources :students, :path => 'estudiantes' do
-    resources :enrollments, :path => 'matriculas'
+    resources :enrollments, :path => 'matriculas' do
+      resources :student_advances, :path => 'pagos'
+    end
     resources :student_licences, :path => 'licencias'
   end
 
   resources :teachers, :path => 'profesores' do
     resources :teacher_categories, :path => 'categorias'
-  end  
+  end
 
   resources :practical_classes, :path => 'clases_practicas' do
     resources :practical_licence_classes, :path => 'categorias'
   end
-  
+
   resources :teachers, :path => 'profesores'
   resources :licence_types, :path => 'tipo_de_licencias'
   resources :classes, :path => 'clases'
