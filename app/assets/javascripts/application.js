@@ -23,12 +23,16 @@
 function selectpickerRefresh() {
  setTimeout(function(){
   $('.selectpicker').selectpicker('refresh');
- }, 35)
+ }, 100)
 }
 
 $( window ).on( "load", function() {
  $('#datetimepicker4').datetimepicker({
     format: 'L'
+  });
+});
+$( window ).on( "load", function() {
+ $('#datetimepicker3').datetimepicker({
   });
 });
 

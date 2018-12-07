@@ -23,3 +23,4 @@ require('./tests');
 require('./teacher_categories');
 require('./practical_licence_classes');
 require('./student_licences');
+require('./classes');

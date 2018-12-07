@@ -1,0 +1,109 @@
+<div class="row">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+      <%= form_tag classes_create_path, id: 'classes_form', :method => 'post', autocomplete: :off, "v-cloak
+" => "true" do %>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label>Tipo de clase</label>
+          <%= select_tag :class_type, options_from_collection_for_select(TEST_TYPES, "first", "last"), include_blank: false, class: 'form-control selectpicker', "v-model" => "classTypeValue", "v-on:change" => "fetchTopics" %>
+        </div>
+      </div>
+    </div>
+    <div v-show="classTypeValue == 'Practica'">
+    <hr>      
+      <div class="row" >
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label for="topic_id">Tema</label>
+            <div>
+              <select id="theorethical-topics-id" class='form-control selectpicker' v-model="practicalTopicValue" data-fieldname = "practicalTopicValue">
+                <option label="" ></option>
+                <option v-for="topic in topics" :value="topic.id"> {{topic.description}} - {{topic.class_length}} mins </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label for="topic_id">Tipo de Licencia</label>
+            <div>
+              <%= select_tag :licence_type_id, options_from_collection_for_select(LicenceType.all, :id, :category), include_blank: true, class: 'form-control selectpicker', "v-model" => "licenceTypeValue", "v-on:change" => "fetchTeachers" %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label for="teacher_id">Profesor</label>
+            <div>
+              <select id="teachers-list" class='form-control selectpicker' v-model="practicalTeacherValue" data-fieldname = "practicalTeacherValue" @change = "fetchStudents">
+                <option label="" ></option>
+                <option v-for="teacher in teachers" :value="teacher.id"> {{teacher.name}} {{teacher.last_name}} - {{teacher.id_number}} </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label for="teacher_id">Estudiante</label>
+            <div>
+              <select id="teachers-list" class='form-control selectpicker' v-model="studentValue" data-fieldname = "studentValue">
+                <option label="" ></option>
+                <option v-for="student in students" :value="student.id"> {{student.name}} {{student.last_name}} - {{student.id_number}} </option>
+              </select>
+            </div>
+          </div>
+        </div>   
+      </div>
+    </div>
+    <div class="row" v-show="classTypeValue == 'Teorica'" >
+    <hr>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label for="topic_id">Tema</label>
+          <div>
+            <select id="theorethical-topics-id" class='form-control selectpicker' v-model="theorethicalTopicValue" data-fieldname = "theorethicalTopicValue">
+              <option label="" ></option>
+              <option v-for="topic in topics" :value="topic.id"> {{topic.description}} {{topic.class_length}} mins </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label for="teacher_id">Profesor</label>
+          <div>
+            <%= select_tag :theo_teacher_id, options_for_select(teachers.collect {|p| [ p[:name], p[:id] ] }), include_blank: true, class: 'form-control selectpicker' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" v-show="classTypeValue != null">
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label for="class_date">Fecha</label>
+          <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+             <%= text_field_tag :class_date, "", class: 'form-control datetimepicker-input', "data-target"=>"#datetimepicker3" %>
+            <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+              <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>  
+    </div>
+    <div> 
+      <%= hidden_field_tag :thoe_topic_id, "", "v-model" => "theorethicalTopicValue" %>
+      <%= hidden_field_tag :pract_teacher_id,  "", "v-model" => "practicalTeacherValue" %>  
+      <%= hidden_field_tag :practical_class_id, "", "v-model" => "practicalTopicValue" %>  
+    </div>
+    <hr>
+    <div class="actions">
+      <%= submit_tag "Registrar", :name => nil, class: 'btn btn-primary' %>
+      <%= link_to 'Cancelar', classes_path, class: 'btn btn-outline-secondary' %>
+    </div>   
+  </div>
+    <% end %>
+  </div>
+</div>
