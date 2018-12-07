@@ -1,0 +1,50 @@
+<%= render 'shared/card',has_return: true, breadcrumbs: {crumbs: [{name: 'Estdiantes', path: students_path},{name: 'Matriculas', path: student_enrollments_path(@enrollment)}], active_label: "Pagos del estudiante: #{@enrollment.student.person.name} #{@enrollment.student.person.last_name}"} do %>
+<div class="row">
+  <div class="col-lg-12">
+    <%= link_to(new_student_enrollment_student_advance_path, class: 'btn btn-primary') do%>
+     <%= icon('fas','plus', 'Agregar') %>
+     <% end %>
+  </div>
+</div>
+<% if @student_advances.empty? %>
+  <br>
+  <div class="alert alert-info">
+    <strong>&iexcl;Atenci&oacute;n!</strong>
+      Aun no se registran pagos para esta matricula, has clic en el bot&oacute;n <%= fw_icon('plus') %> para agregar la primera.
+  </div>
+<% else %>
+<div class="row">
+    <div class="col-lg-12">
+      <br>
+      <h5>Listado de pagos</h5>
+      <br>
+      <div class="table-responsive">
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th width='5%'></th>
+              <th width='10%'>Concepto</th>
+              <th width='10%'>Fecha pago</th>
+              <th width='10%'>Valor pago</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @student_advances.each do |student_advance| %>
+              <tr>
+                <td>
+                  <%= link_to(edit_student_enrollment_student_advance_path(id: student_advance[:id]), class: 'btn btn-outline-dark btn-sm') do %>
+                    <%= icon('fas', 'pencil-alt', 'editar') %>
+                  <% end %>
+                </td>
+                <td><%= student_advance.description %></td>
+                <td><%= student_advance.advance_date.strftime("%Y-%m-%d") %></td>
+                <td><%= number_to_currency(student_advance.advance_value) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% end %>

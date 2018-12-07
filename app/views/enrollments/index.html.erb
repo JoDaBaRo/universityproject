@@ -23,12 +23,14 @@
           <thead>
             <tr>
               <th width='5%'></th>
-              <th width='10%'>Tipo de licencia</th>
-              <th width='10%'>Horas teoricas</th>
-              <th width='10%'>Horas practicas</th> 
+              <th width='5%'></th>
+              <th width='7%'>Tipo de licencia</th>
+              <th width='7%'>Horas teoricas</th>
+              <th width='7%'>Horas practicas</th>
               <th width='10%'>Fecha de matricula</th>
               <th width='10%'>Profesor</th>
               <th width='10%'>Costo total enseñanza</th>
+              <th width='10%'>Deuda total</th>
             </tr>
           </thead>
           <tbody>
@@ -39,12 +41,18 @@
                     <%= icon('fas', 'pencil-alt', 'editar') %>
                   <% end %>
                 </td>
+                <td>
+                  <%= link_to(student_enrollment_student_advances_path(enrollment_id: enrollment[:id]), class: 'btn btn-outline-dark btn-sm') do %>
+                    <%= icon('fas', 'hand-holding-usd', 'pagos') %>
+                  <% end %>
+                </td>
                 <td><%= enrollment.licence_type_id %></td>
                 <td><%= enrollment.theoretical_hours %></td>
                 <td><%= enrollment.practical_hours %></td>
                 <td><%= enrollment.enroll_date.strftime("%Y-%m-%d") %></td>
                 <td><%= enrollment.teacher.person.name %></td>
                 <td><%= number_to_currency(enrollment.cost.first.total_value)%></td>
+                <td><%= number_to_currency(student_debt(enrollment))%></td>
               </tr>
             <% end %>
           </tbody>
