@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     data: {
       classTypeValue: document.getElementById('classes_form').getAttribute('data-class-type'),
       theorethicalTopicValue: '',
+      classDateValue: '',
       practicalTopicValue: '',
       licenceTypeValue: '',
       practicalTeacherValue: '',

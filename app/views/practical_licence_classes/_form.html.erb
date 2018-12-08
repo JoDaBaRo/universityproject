@@ -33,7 +33,7 @@
 </div>
 <hr>
 <div class="actions">
-  <%= f.submit "Sign up", class: 'btn btn-primary' , ':disabled' => "$v.$anyError || $v.$invalid" %>
+  <%= f.submit @practical_licence_class.new_record? ? "Registrar" : "Actualizar", class: 'btn btn-primary' , ':disabled' => "$v.$anyError || $v.$invalid" %>
   <%= link_to 'Cancelar', practical_class_practical_licence_classes_path(@practical_class), class: 'btn btn-outline-secondary' %>
   <% unless @practical_licence_class.new_record? %>
     <%= link_to('#', class: 'btn btn-outline-danger float-right', "data-target" => "#destroyModal", "data-toggle" => "modal") do %>

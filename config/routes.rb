@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
-  root 'pages#welcome'
+  root 'people#index'
 
   namespace :api do
     get 'teachers/:licence_type_id', to: 'teachers#fetch_teachers'

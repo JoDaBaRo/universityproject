@@ -13,12 +13,16 @@ end
 
 def create  
   if class_params[:class_type] == "Practica"
-    binding.pry
     new_params = {}.merge(class_params.except)
-    en = Enrollment.find_by(teacher_id: new_params["pract_teacher_id"])
-    new_params.except!("class_type", "licence_type_id", "pract_teacher_id")
-    new_params.merge!(student_performance: "", enrollment_id: en.id)
-    @class = PracticalStudentClass.new(new_params)
+
+    en = Enrollment.where(student_id: new_params["student_id"],teacher_id: new_params["pract_teacher_id"])
+    person = en.first.student.person
+    student = "#{person.name} #{person.last_name}"
+
+    new_params.except!("class_type", "licence_type_id", "pract_teacher_id","student_id")
+    prac = PracticalClass.where(id: new_params["practical_class_id"])
+    prac ||= "Automovil" 
+    @class = PracticalStudentClass.new({student_performance: "", erollment: student, vehicle_plate: "Motocicleta", practical_class: prac, class_date: new_params["class_date"] })
     if @class.save
       format.html { redirect_to classes_path, notice: "La clase fue creada exitosamente." } 
     else
@@ -33,7 +37,7 @@ end
 private 
 
 def class_params
-  params.permit(:class_type, :licence_type_id, :theo_teacher_id, :practical_class_id, :thoe_topic_id, :pract_teacher_id, :class_date).delete_if {|key, value| value.blank?}
+  params.permit(:student_id,:class_type, :licence_type_id, :theo_teacher_id, :practical_class_id, :thoe_topic_id, :pract_teacher_id, :class_date).delete_if {|key, value| value.blank?}
 end
 
 end

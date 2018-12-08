@@ -22,9 +22,6 @@ require('./control_tests');
 require('./tests');
 require('./teacher_categories');
 require('./practical_licence_classes');
-require('./student_licences');
-<<<<<<< HEAD
 require('./student_advances');
-=======
+require('./student_licences');
 require('./classes');
->>>>>>> master

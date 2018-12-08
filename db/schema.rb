@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_03_201712) do
+ActiveRecord::Schema.define(version: 2018_12_07_125458) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,14 +113,11 @@ ActiveRecord::Schema.define(version: 2018_12_03_201712) do
   create_table "practical_student_classes", force: :cascade do |t|
     t.text "student_performance", null: false
     t.datetime "class_date", null: false
-    t.integer "enrollment_id", null: false
-    t.integer "practical_class_id", null: false
-    t.integer "vehicle_plate_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["enrollment_id"], name: "index_practical_student_classes_on_enrollment_id"
-    t.index ["practical_class_id"], name: "index_practical_student_classes_on_practical_class_id"
-    t.index ["vehicle_plate_id"], name: "index_practical_student_classes_on_vehicle_plate_id"
+    t.string "vehicle_plate"
+    t.string "erollment"
+    t.string "practical_class"
   end
 
   create_table "student_advances", force: :cascade do |t|

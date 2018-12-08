@@ -73,7 +73,7 @@
 </div>
 <hr>
 <div class="actions">
-  <%= f.submit "Sign up", class: 'btn btn-primary', ':disabled' => "$v.$anyError || $v.$invalid"%>
+  <%= f.submit enrollment.new_record? ? "Registrar" : "Actualizar", class: 'btn btn-primary', ':disabled' => "$v.$anyError || $v.$invalid"%>
   <%= link_to 'Cancelar', people_path, class: 'btn btn-outline-secondary' %>
   <% unless enrollment.new_record? %>
     <%= link_to('#', class: 'btn btn-outline-danger float-right', "data-target" => "#destroyModal", "data-toggle" => "modal") do %>

@@ -23,7 +23,7 @@
           <thead>
             <tr>
               <th width='3%'></th>
-              <th width='25%'>Descripcion</th>
+              <th width='25%'>Estudiante</th>
               <th width='25%'>Tiempo de duracion</th>
               <th width='25%'>Categoria licencia</th>
             </tr>
@@ -36,9 +36,9 @@
                       <%= icon('fas', 'pencil-alt', 'editar') %>
                     <% end %>
                   </td>
-                  <td><%= class_type.practical_class.description %></td>
-                  <td><%= class_type.class_date %></td>
-                  <td><%= class_type.vehicle.plate %></td>
+                  <td><%= class_type.erollment %></td>
+                  <td><%= class_type.class_date.strftime("%Y-%m-%d") %></td>
+                  <td><%= class_type.vehicle_plate %></td>
                 </tr>
             <% end %>
           </tbody>

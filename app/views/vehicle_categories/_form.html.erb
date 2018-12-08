@@ -56,7 +56,7 @@
 </div>
 <hr>
 <div class="actions">
-  <%= f.submit "Actualizar", class: 'btn btn-primary', ':disabled' => "$v.$anyError || $v.$invalid"%>
+  <%= f.submit @vehicle_category.new_record? ? "Registrar" : "Actualizar", class: 'btn btn-primary', ':disabled' => "$v.$anyError || $v.$invalid"%>
   <%= link_to 'Cancelar', vehicle_categories_path, class: 'btn btn-outline-secondary' %>
   <% unless @vehicle_category.new_record? %>
     <%= link_to('#', class: 'btn btn-outline-danger float-right', "data-target" => "#destroyModal", "data-toggle" => "modal") do %>
