@@ -1,0 +1,15 @@
+current directory: /home/cristian/Escritorio/universityproject/vendor/bundle/gems/websocket-driver-0.7.0/ext/websocket-driver
+/usr/local/rvm/rubies/ruby-2.5.1/bin/ruby -r ./siteconf20181209-30115-1p9qq9a.rb extconf.rb
+creating Makefile
+
+current directory: /home/cristian/Escritorio/universityproject/vendor/bundle/gems/websocket-driver-0.7.0/ext/websocket-driver
+make "DESTDIR=" clean
+
+current directory: /home/cristian/Escritorio/universityproject/vendor/bundle/gems/websocket-driver-0.7.0/ext/websocket-driver
+make "DESTDIR="
+compiling websocket_mask.c
+linking shared-object websocket_mask.so
+
+current directory: /home/cristian/Escritorio/universityproject/vendor/bundle/gems/websocket-driver-0.7.0/ext/websocket-driver
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 websocket_mask.so ./.gem.20181209-30115-icm8g
