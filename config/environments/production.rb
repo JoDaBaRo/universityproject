@@ -66,7 +66,6 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "vueapp_#{Rails.env}"
 
   config.action_mailer.perform_caching = false
-  config.action_mailer.default_url_options = { host: 'fathomless-plains-34877.herokuapp.com'}
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -85,6 +84,25 @@ Rails.application.configure do
   # Use a different logger for distributed setups.
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
+
+
+  # Send deprecation notices to registered listeners.
+  config.active_support.deprecation = :notify
+
+  config.action_mailer.smtp_settings = {
+    :address => "smtp.gmail.com",
+    :port => "587",
+    :domain => "example.com",
+    :user_name => "cristianleonardopenarandamora@gmail.com",
+    :password => "cristianleonardo",
+    :authentication => "plain",
+    :enable_starttls_auto => true
+  }
+  # ActionMailer Config
+  config.action_mailer.default_url_options = { :host => "fathomless-plains-34877.herokuapp.com" }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = false
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
